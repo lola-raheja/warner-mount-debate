@@ -1,0 +1,170 @@
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface-2: #1f2630;
+  --border: rgba(255,255,255,0.1);
+  --text: #f3f5f7;
+  --muted: #9da7b3;
+  --accent: #6ea8fe;
+  --accent-2: #8b5cf6;
+  --shadow: 0 20px 60px rgba(0,0,0,0.35);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(circle at top, #182131 0%, var(--bg) 45%);
+  color: var(--text);
+}
+
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 20px 48px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 24px;
+  align-items: start;
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 12px;
+  margin: 0 0 12px;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 4.4rem);
+  line-height: 0.96;
+  margin: 0 0 16px;
+}
+
+.dek, .chart-note, .legend p {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 65ch;
+}
+
+.year-card, .chart-shell {
+  background: rgba(22, 27, 34, 0.88);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+}
+
+.year-card {
+  padding: 20px;
+  display: grid;
+  gap: 8px;
+}
+
+.year-label, .total-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.year-value, .total-value {
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.chart-shell {
+  padding: 20px;
+}
+
+.chart-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.chart-head h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.chart {
+  position: relative;
+  min-height: 70vh;
+}
+
+svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.node circle {
+  fill: url(#bubbleGradient);
+  stroke: rgba(255,255,255,0.85);
+  stroke-width: 1.5;
+  transition: transform 180ms ease, fill-opacity 180ms ease;
+}
+
+.node:hover circle,
+.node.is-active circle {
+  fill-opacity: 1;
+  stroke-width: 2.5;
+}
+
+.label {
+  fill: white;
+  text-anchor: middle;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.label .count {
+  font-weight: 500;
+  fill: rgba(255,255,255,0.78);
+}
+
+.tooltip {
+  position: absolute;
+  inset: auto auto 16px 16px;
+  max-width: 240px;
+  background: rgba(12, 17, 24, 0.94);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+  pointer-events: none;
+}
+
+.tooltip strong {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.legend {
+  margin-top: 16px;
+}
+
+@media (max-width: 780px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-head {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .chart {
+    min-height: 60vh;
+  }
+}
