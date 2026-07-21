@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Film Distribution, 2000</title>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<style>
+  body {
+    margin: 0;
+    font-family: Inter, Arial, sans-serif;
+    background: #111;
+    color: #f5f5f5;
+  }
+  svg {
+    display: block;
+    margin: 0 auto;
+    width: 100vw;
+    height: 100vh;
+  }
+  .bubble text {
+    fill: white;
+    text-anchor: middle;
+    pointer-events: none;
+    font-size: 12px;
+  }
+  .bubble circle {
+    fill: #4f46e5;
+    fill-opacity: 0.85;
+    stroke: white;
+    stroke-width: 1.5;
+  }
+  .bubble:hover circle {
+    fill: #7c3aed;
+  }
+</style>
+<body>
+<script>
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const svg = d3.select("body")
+  .append("svg")
+  .attr("viewBox", `0 0 ${width} ${height}`);
+
+d3.csv("distributor_title_counts.csv", d => ({
+  distributor: d.distributor_norm,
+  value: +d.title_count
+})).then(data => {
+  const root = d3.hierarchy({ children: data })
+    .sum(d => d.value);
+
+  d3.pack()
+    .size([width, height])
+    .padding(8)(root);
+
+  const nodes = svg.selectAll("g")
+    .data(root.leaves())
+    .join("g")
+    .attr("class", "bubble")
+    .attr("transform", d => `translate(${d.x},${d.y})`);
+
+  nodes.append("circle")
+    .attr("r", d => d.r);
+
+  nodes.append("text")
+    .selectAll("tspan")
+    .data(d => [d.data.distributor, d.data.value + " films"])
+    .join("tspan")
+    .attr("x", 0)
+    .attr("dy", (_, i) => i === 0 ? "0" : "1.2em")
+    .text(t => t);
+
+  nodes.append("title")
+    .text(d => `${d.data.distributor}: ${d.data.value} titles`);
+});
+</script>
+</body>
