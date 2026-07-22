@@ -1,19 +1,19 @@
-distributor_norm,title_count,year
-Warner Bros.,17,2000
-Sony Pictures,16,2000
-Disney,16,2000
-Universal,13,2000
-New Line,13,2000
-20th Century Fox,12,2000
-Paramount Pictures,12,2000
-Miramax,10,2000
-Dreamworks,8,2000
-Destination Films,5,2000
-MGM,4,2000
-USA Films,4,2000
-Artisan,3,2000
-Fox Searchlight,1,2000
-Lionsgate,1,2000
-Paramount Vantage,1,2000
-Sony Pictures Classics,1,2000
-Trimark,1,2000
+year,parent_id,parent_label,distributor_id,distributor_label,title_count
+2000,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,17
+2000,sony,Sony,sony_pictures,Sony Pictures,16
+2000,disney,Disney,walt_disney_studios,Disney,16
+2000,seagram,Seagram,universal_pictures,Universal,13
+2000,time_warner,Time Warner,new_line_cinema,New Line,13
+2000,news_corp,News Corps,20th_century_studios,20th Century Fox,12
+2000,viacom,Viacom,paramount_pictures,Paramount,12
+2000,disney,Disney,miramax,Miramax,10
+2000,,,dreamworks,DreamWorks,8
+2000,,,destination_films,Destination Films,5
+2000,,,mgm,MGM,4
+2000,,,focus_features,USA Films,4
+2000,,,artisan,Artisan,3
+2000,news_corp,News Corps,searchlight_pictures,Fox Searchlight,1
+2000,,,lionsgate,Lionsgate,1
+2000,viacom,Viacom,paramount_vantage,Paramount Vantage,1
+2000,sony,Sony,sony_pictures_classics,Sony Pictures Classics,1
+2000,,,trimark,Trimark,1
