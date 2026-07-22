@@ -1,12 +1,10 @@
 :root {
   --bg: #0d1117;
-  --surface: #161b22;
-  --surface-2: #1f2630;
+  --surface: rgba(22, 27, 34, 0.88);
   --border: rgba(255,255,255,0.1);
   --text: #f3f5f7;
   --muted: #9da7b3;
   --accent: #6ea8fe;
-  --accent-2: #8b5cf6;
   --shadow: 0 20px 60px rgba(0,0,0,0.35);
 }
 
@@ -54,7 +52,7 @@ h1 {
 }
 
 .year-card, .chart-shell {
-  background: rgba(22, 27, 34, 0.88);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 24px;
   box-shadow: var(--shadow);
@@ -97,7 +95,7 @@ h1 {
 
 .chart {
   position: relative;
-  min-height: 70vh;
+  min-height: 72vh;
 }
 
 svg {
@@ -106,35 +104,52 @@ svg {
   display: block;
 }
 
-.node circle {
-  fill: url(#bubbleGradient);
-  stroke: rgba(255,255,255,0.85);
+.parent-node circle {
+  fill-opacity: 0.14;
+  stroke: rgba(255,255,255,0.28);
   stroke-width: 1.5;
-  transition: transform 180ms ease, fill-opacity 180ms ease;
 }
 
-.node:hover circle,
-.node.is-active circle {
+.parent-label {
+  fill: rgba(255,255,255,0.72);
+  text-anchor: middle;
+  font-size: 13px;
+  font-weight: 700;
+  pointer-events: none;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.child-node circle {
+  fill-opacity: 0.92;
+  stroke: rgba(255,255,255,0.88);
+  stroke-width: 1.4;
+  transition: transform 180ms ease, fill-opacity 180ms ease, stroke-width 180ms ease;
+}
+
+.child-node:hover circle,
+.child-node.is-active circle,
+.child-node:focus circle {
   fill-opacity: 1;
-  stroke-width: 2.5;
+  stroke-width: 2.8;
 }
 
-.label {
+.child-label {
   fill: white;
   text-anchor: middle;
   font-weight: 700;
   pointer-events: none;
 }
 
-.label .count {
+.child-label .count {
   font-weight: 500;
-  fill: rgba(255,255,255,0.78);
+  fill: rgba(255,255,255,0.8);
 }
 
 .tooltip {
   position: absolute;
   inset: auto auto 16px 16px;
-  max-width: 240px;
+  max-width: 260px;
   background: rgba(12, 17, 24, 0.94);
   color: white;
   border: 1px solid rgba(255,255,255,0.12);
@@ -148,6 +163,17 @@ svg {
   display: block;
   font-size: 1rem;
   margin-bottom: 4px;
+}
+
+.tooltip span {
+  display: block;
+  color: rgba(255,255,255,0.82);
+  line-height: 1.45;
+}
+
+.tooltip-parent {
+  margin-top: 6px;
+  color: #a5b4fc;
 }
 
 .legend {
@@ -165,6 +191,10 @@ svg {
   }
 
   .chart {
-    min-height: 60vh;
+    min-height: 62vh;
+  }
+
+  .parent-label {
+    font-size: 11px;
   }
 }
