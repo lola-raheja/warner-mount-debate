@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Studio Ownership Bubbles — 2000</title>
+  <title>Studio Ownership Bubbles — 2000–2001</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -16,9 +16,9 @@
         <p class="eyebrow">Prototype</p>
         <h1>Studio ownership bubbles</h1>
         <p class="dek">
-          A first-pass D3 circle pack showing how many wide-release films each
-          distributor put into U.S. cinemas in 2000, grouped by parent company
-          where applicable.
+          A D3 circle pack showing how many wide-release films each
+          distributor put into U.S. cinemas each year, grouped by parent
+          company where applicable. Press play to watch ownership shift.
         </p>
       </div>
       <div class="year-card" aria-label="Year and total titles summary">
@@ -26,6 +26,11 @@
         <span id="yearValue" class="year-value">2000</span>
         <span class="total-label">Total wide releases</span>
         <span id="totalValue" class="total-value">—</span>
+        <div class="playback-controls" role="group" aria-label="Year playback controls">
+          <button id="prevButton" type="button" class="control-btn" aria-label="Previous year">‹ Prev</button>
+          <button id="playButton" type="button" class="control-btn control-btn-primary" aria-pressed="false">Play</button>
+          <button id="nextButton" type="button" class="control-btn" aria-label="Next year">Next ›</button>
+        </div>
       </div>
     </header>
 
@@ -39,15 +44,17 @@
         </p>
       </div>
       <div id="chart" class="chart" role="img"
-           aria-label="Circle packing chart of film distributors in 2000 grouped by parent company"></div>
+           aria-label="Animated circle packing chart of film distributors by year, grouped by parent company"></div>
       <div id="tooltip" class="tooltip" hidden></div>
     </section>
 
     <section class="legend">
       <p>
-        This version is intentionally simple: one year only, with parent-company
-        groupings for major studios and standalone bubbles for independent distributors.
-        No mergers or time transitions yet.
+        Bubbles are matched by distributor across years, so existing distributors
+        morph in place as their release counts change, new distributors pop in,
+        and discontinued ones fade out. Parent-company circles track M&amp;A activity —
+        for example, Time Warner's label updates to AOL Time Warner in 2001 while
+        the underlying grouping stays the same.
       </p>
     </section>
   </main>

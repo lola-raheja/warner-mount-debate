@@ -3,17 +3,31 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2000,sony,Sony,sony_pictures,Sony Pictures,16
 2000,disney,Disney,walt_disney_studios,Disney,16
 2000,seagram,Seagram,universal_pictures,Universal,13
-2000,time_warner,Time Warner,new_line_cinema,New Line,13
-2000,news_corp,News Corps,20th_century_studios,20th Century Fox,12
+2000,time_warner,Time Warner,new_line,New Line,13
+2000,news_corp,News Corp,20th_century_fox,20th Century Fox,12
 2000,viacom,Viacom,paramount_pictures,Paramount,12
 2000,disney,Disney,miramax,Miramax,10
 2000,,,dreamworks,DreamWorks,8
 2000,,,destination_films,Destination Films,5
 2000,,,mgm,MGM,4
-2000,,,focus_features,USA Films,4
+2000,,,usa_films,USA Films,4
 2000,,,artisan,Artisan,3
-2000,news_corp,News Corps,searchlight_pictures,Fox Searchlight,1
+2000,news_corp,News Corp,fox_searchlight,Fox Searchlight,1
 2000,,,lionsgate,Lionsgate,1
 2000,viacom,Viacom,paramount_vantage,Paramount Vantage,1
 2000,sony,Sony,sony_pictures_classics,Sony Pictures Classics,1
 2000,,,trimark,Trimark,1
+2001,news_corp,News Corp,20th_century_fox,20th Century Fox,15
+2001,disney,Disney,walt_disney_studios,Disney,11
+2001,,,dreamworks,DreamWorks,5
+2001,news_corp,News Corp,fox_searchlight,Fox Searchlight,1
+2001,,,lionsgate,Lionsgate,2
+2001,,,mgm,MGM,8
+2001,disney,Disney,miramax,Miramax,12
+2001,time_warner,AOL Time Warner,new_line,New Line,9
+2001,sony,Sony,sony_pictures,Sony Pictures,17
+2001,seagram,Vivendi Universal,universal_pictures,Universal,11
+2001,,,usa_films,USA Films,1
+2001,time_warner,AOL Time Warner,warner_bros_pictures,Warner Bros.,22
+2001,viacom,Viacom,paramount_pictures,Paramount,14
+2001,,,screen_media_films,Screen Media Films,1
