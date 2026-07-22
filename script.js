@@ -121,18 +121,6 @@ function render(rows) {
     .ease(d3.easeCubicOut)
     .attr('r', d => d.r);
 
-  parents.each(function(d) {
-    if (d.r < 52) return;
-    const lines = wrapLabel(d.data.name, d.r > 110 ? 18 : 14);
-    const label = d3.select(this).append('text').attr('class', 'parent-label');
-    lines.forEach((line, index) => {
-      label.append('tspan')
-        .attr('x', 0)
-        .attr('dy', index === 0 ? '-0.1em' : '1.05em')
-        .text(line);
-    });
-  });
-
   const allLeaves = distributorNodes.concat(standaloneNodes);
 
   const nodes = childGroup.selectAll('g.child-node')
@@ -170,6 +158,28 @@ function render(rows) {
       .attr('dy', '1.15em')
       .style('font-size', `${Math.max(9, Math.min(14, d.r / 4.6))}px`)
       .text(`${d.data.value} films`);
+  });
+
+  // Parent-company labels live in their own top-most layer so distributor
+  // bubbles packed inside a parent circle can never paint over the name.
+  const labelGroup = svg.append('g').attr('class', 'parent-labels');
+
+  const parentLabels = labelGroup.selectAll('g.parent-label-node')
+    .data(parentNodes, d => d.data.id)
+    .join('g')
+    .attr('class', 'parent-label-node')
+    .attr('transform', d => `translate(${d.x},${Math.max(d.y - d.r + 22, 22)})`);
+
+  parentLabels.each(function(d) {
+    if (d.r < 40) return;
+    const lines = wrapLabel(d.data.name, d.r > 110 ? 18 : 14);
+    const label = d3.select(this).append('text').attr('class', 'parent-label');
+    lines.forEach((line, index) => {
+      label.append('tspan')
+        .attr('x', 0)
+        .attr('dy', index === 0 ? '0.8em' : '1.05em')
+        .text(line);
+    });
   });
 
   nodes
