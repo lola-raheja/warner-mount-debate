@@ -110,14 +110,22 @@ svg {
   stroke-width: 1.5;
 }
 
+.parent-labels {
+  pointer-events: none;
+}
+
 .parent-label {
-  fill: rgba(255,255,255,0.72);
+  fill: #ffffff;
   text-anchor: middle;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
   pointer-events: none;
   text-transform: uppercase;
   letter-spacing: 0.06em;
+  paint-order: stroke fill;
+  stroke: rgba(6, 9, 14, 0.85);
+  stroke-width: 4px;
+  stroke-linejoin: round;
 }
 
 .child-node circle {
