@@ -18,9 +18,9 @@ const MAX_LEAF_RADIUS = 95;
 const PARENT_TOP_PADDING = 12;
 const PARENT_RING_PADDING = 16;
 const CHILD_SUB_PADDING = 8;
-const CORE_GAP = 18; // gap between the central parent cluster and the independents ring
-const RING_ITEM_GAP = 7; // gap between neighboring independents in that ring
-const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
+const STANDALONE_PADDING = 4; // independents get a much tighter pad than parents -- less reserved space
+const CORE_GAP = 8; // gap between the central parent cluster and the innermost ring of independents
+const RING_ITEM_GAP = 3; // gap between neighboring independents within the same ring band
 
 const parentPalette = new Map([
   ['time_warner', '#5B8FF9'],
@@ -74,38 +74,36 @@ function isBrandedDistributor(distributorId) {
   return distributorBrandColors.has(distributorId);
 }
 
-// Places each circle just outside `core` (and outside every circle already
-// placed) by walking outward along a spiral, deterministically -- no RNG,
-// so the same input always produces the same ring. Starting each circle's
-// spiral at a golden-angle-spaced offset (rather than everyone starting at
-// angle 0) spreads the initial attempts evenly around the ring, which
-// means fewer collision retries and a more even-looking result than a
-// naive spiral.
+// Arranges `circles` in concentric shells around `core`, closest-first --
+// callers must pass circles pre-sorted descending by radius. Each shell is
+// filled at a single fixed distance from the core, spending angular budget
+// (2*pi) on consecutive circles until it's full, then steps out to start
+// the next shell. Because circles arrive biggest-first, the innermost
+// shells end up holding the biggest circles and each shell out is smaller
+// than the last -- so a distributor's distance from the majors falls out
+// directly from its size, with no separate distance calculation needed.
+// Deterministic (no RNG, no search/retry loop), so the same input always
+// produces the same ring.
 function packAroundCore(core, circles) {
-  const placed = [core];
-  circles.forEach((circle, index) => {
-    let angle = index * GOLDEN_ANGLE;
-    let radius = core.r + circle.r + CORE_GAP;
-    let iterations = 0;
-    while (iterations < 4000) {
-      const x = core.x + radius * Math.cos(angle);
-      const y = core.y + radius * Math.sin(angle);
-      const collides = placed.some(p => Math.hypot(p.x - x, p.y - y) < p.r + circle.r + RING_ITEM_GAP);
-      if (!collides) {
-        circle.x = x;
-        circle.y = y;
-        placed.push(circle);
-        return;
-      }
-      angle += 0.28;
-      radius += 0.7;
-      iterations += 1;
+  let radius = core.r;
+  let i = 0;
+  while (i < circles.length) {
+    radius += CORE_GAP + circles[i].r;
+    let angleUsed = 0;
+    let shellMaxR = 0;
+    while (i < circles.length) {
+      const circle = circles[i];
+      const angleWidth = 2 * Math.atan((circle.r + RING_ITEM_GAP / 2) / radius);
+      if (angleUsed > 0 && angleUsed + angleWidth > Math.PI * 2) break;
+      const angle = angleUsed + angleWidth / 2;
+      circle.x = core.x + radius * Math.cos(angle);
+      circle.y = core.y + radius * Math.sin(angle);
+      angleUsed += angleWidth;
+      shellMaxR = Math.max(shellMaxR, circle.r);
+      i += 1;
     }
-    // Fallback (should be unreachable in practice): place at the current spiral tip anyway.
-    circle.x = core.x + radius * Math.cos(angle);
-    circle.y = core.y + radius * Math.sin(angle);
-    placed.push(circle);
-  });
+    radius += shellMaxR;
+  }
   return circles;
 }
 
@@ -237,7 +235,7 @@ function computeFixedLayout(allRows) {
 
   const standaloneCircles = Array.from(standaloneMax, ([distributorId, maxVal]) => ({
     id: distributorId,
-    r: rScale0(maxVal) + PARENT_TOP_PADDING,
+    r: rScale0(maxVal) + STANDALONE_PADDING,
     isParent: false
   })).sort((a, b) => b.r - a.r);
   packAroundCore(core, standaloneCircles);
@@ -302,7 +300,7 @@ function resolveMacroLayout(entries) {
   const simulation = d3.forceSimulation(nodes)
     .force('x', d3.forceX(d => d.target.x).strength(0.3))
     .force('y', d3.forceY(d => d.target.y).strength(0.3))
-    .force('collide', d3.forceCollide(d => d.r + 6).strength(1))
+    .force('collide', d3.forceCollide(d => d.r + 3).strength(1))
     .stop();
   for (let i = 0; i < 300; i += 1) simulation.tick();
   return nodes;
