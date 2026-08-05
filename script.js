@@ -18,6 +18,9 @@ const MAX_LEAF_RADIUS = 95;
 const PARENT_TOP_PADDING = 12;
 const PARENT_RING_PADDING = 16;
 const CHILD_SUB_PADDING = 8;
+const CORE_GAP = 18; // gap between the central parent cluster and the independents ring
+const RING_ITEM_GAP = 7; // gap between neighboring independents in that ring
+const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
 
 const parentPalette = new Map([
   ['time_warner', '#5B8FF9'],
@@ -69,6 +72,41 @@ function leafColor(distributorId, fallback) {
 
 function isBrandedDistributor(distributorId) {
   return distributorBrandColors.has(distributorId);
+}
+
+// Places each circle just outside `core` (and outside every circle already
+// placed) by walking outward along a spiral, deterministically -- no RNG,
+// so the same input always produces the same ring. Starting each circle's
+// spiral at a golden-angle-spaced offset (rather than everyone starting at
+// angle 0) spreads the initial attempts evenly around the ring, which
+// means fewer collision retries and a more even-looking result than a
+// naive spiral.
+function packAroundCore(core, circles) {
+  const placed = [core];
+  circles.forEach((circle, index) => {
+    let angle = index * GOLDEN_ANGLE;
+    let radius = core.r + circle.r + CORE_GAP;
+    let iterations = 0;
+    while (iterations < 4000) {
+      const x = core.x + radius * Math.cos(angle);
+      const y = core.y + radius * Math.sin(angle);
+      const collides = placed.some(p => Math.hypot(p.x - x, p.y - y) < p.r + circle.r + RING_ITEM_GAP);
+      if (!collides) {
+        circle.x = x;
+        circle.y = y;
+        placed.push(circle);
+        return;
+      }
+      angle += 0.28;
+      radius += 0.7;
+      iterations += 1;
+    }
+    // Fallback (should be unreachable in practice): place at the current spiral tip anyway.
+    circle.x = core.x + radius * Math.cos(angle);
+    circle.y = core.y + radius * Math.sin(angle);
+    placed.push(circle);
+  });
+  return circles;
 }
 
 function wrapLabel(name, maxChars = 14) {
@@ -186,15 +224,26 @@ function computeFixedLayout(allRows) {
     parentFootprint.set(parentId, (d3.median(reaches) || 0) + PARENT_RING_PADDING);
   });
 
-  // Arrange parents (by typical footprint) and ever-standalone
-  // distributors (by peak size) together, compactly, then fit that
-  // arrangement into the fixed canvas.
-  const masterCircles = [];
-  parentFootprint.forEach((r, parentId) => masterCircles.push({ id: parentId, r: r + PARENT_TOP_PADDING, isParent: true }));
-  standaloneMax.forEach((maxVal, distributorId) => masterCircles.push({ id: distributorId, r: rScale0(maxVal) + PARENT_TOP_PADDING, isParent: false }));
+  // Parent companies are the story here, so they get packed into one tight
+  // central cluster -- bordering each other, not spread out competing for
+  // space with the much larger number of small independents. Independents
+  // are then arranged in a ring around that cluster instead of being
+  // packed in the same pass, which is what was pushing the parents apart
+  // and leaving gaps between them.
+  const parentCircles = [];
+  parentFootprint.forEach((r, parentId) => parentCircles.push({ id: parentId, r: r + PARENT_TOP_PADDING, isParent: true }));
+  d3.packSiblings(parentCircles);
+  const core = d3.packEnclose(parentCircles);
 
-  d3.packSiblings(masterCircles);
-  const masterEnclosing = d3.packEnclose(masterCircles);
+  const standaloneCircles = Array.from(standaloneMax, ([distributorId, maxVal]) => ({
+    id: distributorId,
+    r: rScale0(maxVal) + PARENT_TOP_PADDING,
+    isParent: false
+  })).sort((a, b) => b.r - a.r);
+  packAroundCore(core, standaloneCircles);
+
+  const masterCircles = parentCircles.concat(standaloneCircles);
+  const masterEnclosing = d3.packEnclose([core, ...standaloneCircles]);
   const fitScale = (Math.min(CANVAS_WIDTH, CANVAS_HEIGHT) / (2 * masterEnclosing.r)) * 0.94;
   const translateX = CANVAS_WIDTH / 2 - masterEnclosing.x * fitScale;
   const translateY = CANVAS_HEIGHT / 2 - masterEnclosing.y * fitScale;
@@ -221,17 +270,38 @@ function computeFixedLayout(allRows) {
 
 // Resolves this year's actual macro layout (parent rings + standalone
 // bubbles) with a short, deterministic force simulation: every node starts
-// pinned to its fixed home and is pulled back toward it, while a collision
-// force nudges apart only whichever nodes actually overlap at their real
-// this-year size. Nodes are always given explicit starting x/y (never left
-// for d3-force to randomize), so the same year's data always resolves to
-// the exact same positions -- this is what keeps "10 years is loosely
-// packed, 1996 is dense" from ever looking different between visits.
+// pinned to its (possibly centroid-blended, see below) target and is
+// pulled back toward it, while a collision force nudges apart only
+// whichever nodes actually overlap at their real this-year size. Nodes are
+// always given explicit starting x/y (never left for d3-force to
+// randomize), so the same year's data always resolves to the exact same
+// positions -- this is what keeps "2010 is loosely packed, 1996 is dense"
+// from ever looking different between visits.
 function resolveMacroLayout(entries) {
-  const nodes = entries.map(e => ({ ...e, x: e.home.x, y: e.home.y }));
+  const parentEntries = entries.filter(e => e.kind === 'parent');
+  const centroid = parentEntries.length > 1
+    ? { x: d3.mean(parentEntries, e => e.home.x), y: d3.mean(parentEntries, e => e.home.y) }
+    : null;
+
+  // Home positions are laid out once from all 23 parents this dataset ever
+  // has, but any single year only activates a handful of them -- so the
+  // active ones can land in different neighborhoods of that full
+  // arrangement, separated by gaps where currently-dormant parents' homes
+  // sit. Blending each active parent's home toward this year's active
+  // centroid pulls them into one compact cluster instead of leaving them
+  // scattered; independents keep their own unblended home so they stay in
+  // the outer ring around whatever shape the parent cluster takes.
+  const CENTROID_BLEND = 0.85;
+  const nodes = entries.map(e => {
+    const target = centroid && e.kind === 'parent'
+      ? { x: e.home.x + (centroid.x - e.home.x) * CENTROID_BLEND, y: e.home.y + (centroid.y - e.home.y) * CENTROID_BLEND }
+      : e.home;
+    return { ...e, target, x: target.x, y: target.y };
+  });
+
   const simulation = d3.forceSimulation(nodes)
-    .force('x', d3.forceX(d => d.home.x).strength(0.3))
-    .force('y', d3.forceY(d => d.home.y).strength(0.3))
+    .force('x', d3.forceX(d => d.target.x).strength(0.3))
+    .force('y', d3.forceY(d => d.target.y).strength(0.3))
     .force('collide', d3.forceCollide(d => d.r + 6).strength(1))
     .stop();
   for (let i = 0; i < 300; i += 1) simulation.tick();
