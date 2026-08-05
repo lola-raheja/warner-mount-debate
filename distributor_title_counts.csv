@@ -1,33 +1,755 @@
 year,parent_id,parent_label,distributor_id,distributor_label,title_count
-2000,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,17
+1990,news_corp,News Corp,twentieth_century,20th Century Fox,9
+1990,,,cannon,Cannon,1
+1990,mgm_parent,MGM-Pathé Communications,mgm,MGM,8
+1990,,,millimeter_films,Millimeter Films,1
+1990,,,new_line_cinema,New Line,1
+1990,metromedia,Metromedia,orion_pictures,Orion Pictures,7
+1990,paramount_communications,Paramount Communications,paramount_pictures,Paramount Pictures,14
+1990,sony,Sony,sony_pictures,Sony Pictures,15
+1990,sony,Sony,tristar_pictures,TriStar,1
+1990,sony,Sony,triumph_releasing,Triumph Releasing,4
+1990,matsushita,Matsushita,universal_pictures,Universal,12
+1990,disney,Disney,walt_disney_studios,Walt Disney,13
+1990,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,12
+1991,news_corp,News Corp,twentieth_century,20th Century Fox,11
+1991,,,goldwyn_entertainment,Goldwyn Entertainment,1
+1991,,,interstar_releasing,InterStar Releasing,1
+1991,mgm_parent,MGM-Pathé Communications,mgm,MGM,5
+1991,,,new_line_cinema,New Line,3
+1991,metromedia,Metromedia,orion_pictures,Orion Pictures,4
+1991,paramount_communications,Paramount Communications,paramount_pictures,Paramount Pictures,14
+1991,sony,Sony,sony_pictures,Sony Pictures,16
+1991,,,studio_three_films,Studio Three Films,2
+1991,matsushita,Matsushita,universal_pictures,Universal,17
+1991,disney,Disney,walt_disney_studios,Walt Disney,14
+1991,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,16
+1992,news_corp,News Corp,twentieth_century,20th Century Fox,14
+1992,miramax,Miramax,dimension_films,Dimension Films,1
+1992,,,goldwyn_entertainment,Goldwyn Entertainment,1
+1992,,,interstar_releasing,InterStar Releasing,1
+1992,mgm_parent,MGM-Pathé Communications,mgm,MGM,3
+1992,,,miramax,Miramax,2
+1992,,,new_line_cinema,New Line,3
+1992,metromedia,Metromedia,orion_pictures,Orion Pictures,1
+1992,paramount_communications,Paramount Communications,paramount_pictures,Paramount Pictures,13
+1992,sony,Sony,sony_pictures,Sony Pictures,18
+1992,sony,Sony,tristar_pictures,TriStar Pictures,2
+1992,matsushita,Matsushita,universal_pictures,Universal,13
+1992,disney,Disney,walt_disney_studios,Walt Disney,16
+1992,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,17
+1993,news_corp,News Corp,twentieth_century,20th Century Fox,17
+1993,matsushita,Matsushita,gramercy_pictures,Gramercy,1
+1993,mgm_parent,Crédit Lyonnais ,mgm,MGM,5
+1993,disney,Disney,miramax,Miramax,2
+1993,,,new_line_cinema,New Line,6
+1993,metromedia,Metromedia,orion_pictures,Orion Pictures,2
+1993,paramount_communications,Paramount Communications,paramount_pictures,Paramount Pictures,11
+1993,,,savoy,Savoy,1
+1993,sony,Sony,sony_pictures,Sony Pictures,16
+1993,sony,Sony,tristar_pictures,TriStar Pictures,3
+1993,,,trimark_pictures,Trimark,2
+1993,matsushita,Matsushita,universal_pictures,Universal,15
+1993,disney,Disney,walt_disney_studios,Walt Disney,16
+1993,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,19
+1994,news_corp,News Corp,twentieth_century,20th Century Fox,12
+1994,,,cannon,Cannon,1
+1994,matsushita,Matsushita,gramercy_pictures,Gramercy,2
+1994,,,hemdale,Hemdale,1
+1994,mgm_parent,Crédit Lyonnais ,mgm,MGM,5
+1994,disney,Disney,miramax,Miramax,3
+1994,turner_entertainment,Turner Entertainment Co.,new_line_cinema,New Line,10
+1994,metromedia,Metromedia,orion_pictures,Orion Pictures,2
+1994,paramount_communications,Paramount Communications,paramount_pictures,Paramount Pictures,11
+1994,,,savoy,Savoy,3
+1994,sony,Sony,sony_pictures,Sony Pictures,19
+1994,matsushita,Matsushita,universal_pictures,Universal,15
+1994,disney,Disney,walt_disney_studios,Walt Disney,20
+1994,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,19
+1995,news_corp,News Corp,twentieth_century,20th Century Fox,12
+1995,,,goldwyn_entertainment,Goldwyn Entertainment,1
+1995,seagram,Seagram,gramercy_pictures,Gramercy,4
+1995,mgm_parent,Crédit Lyonnais ,mgm,MGM,12
+1995,disney,Disney,miramax,Miramax,6
+1995,time_warner,Time Warner,new_line_cinema,New Line,10
+1995,viacom,Viacom,paramount_pictures,Paramount Pictures,14
+1995,,,savoy,Savoy,6
+1995,sony,Sony,sony_pictures,Sony Pictures,22
+1995,sony,Sony,tristar_pictures,TriStar Pictures,1
+1995,seagram,Seagram,universal_pictures,Universal,16
+1995,disney,Disney,walt_disney_studios,Walt Disney,24
+1995,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,19
+1996,news_corp,News Corp,twentieth_century,20th Century Fox,12
+1996,news_corp,News Corp,searchlight_pictures,Fox Searchlight,1
+1996,seagram,Seagram,gramercy_pictures,Gramercy,1
+1996,mgm_parent,Trancinda Corporation,mgm,MGM,12
+1996,disney,Disney,miramax,Miramax,6
+1996,miramax,Miramax,dimension_films,Dimension Films,1
+1996,time_warner,Time Warner,new_line_cinema,New Line,14
+1996,metromedia,Metromedia,orion_pictures,Orion Pictures,2
+1996,viacom,Viacom,paramount_pictures,Paramount Pictures,17
+1996,sony,Sony,sony_pictures,Sony Pictures,26
+1996,seagram,Seagram,universal_pictures,Universal,14
+1996,disney,Disney,walt_disney_studios,Walt Disney,25
+1996,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,21
+1997,news_corp,News Corp,twentieth_century,20th Century Fox,14
+1997,,,dreamworks,Dreamworks SKG,2
+1997,seagram,Seagram,gramercy_pictures,Gramercy,3
+1997,,,live_entertainment,Live Entertainment,1
+1997,mgm_parent,Trancinda Corporation,mgm,MGM,6
+1997,disney,Disney,miramax,Miramax,4
+1997,time_warner,Time Warner,new_line_cinema,New Line,12
+1997,metromedia,Metromedia,orion_pictures,Orion Pictures,1
+1997,viacom,Viacom,paramount_pictures,Paramount Pictures,19
+1997,,,polygram,Polygram,1
+1997,sony,Sony,sony_pictures,Sony Pictures,22
+1997,sony,Sony,tristar_pictures,TriStar Pictures,1
+1997,,,trimark_pictures,Trimark,3
+1997,seagram,Seagram,universal_pictures,Universal,12
+1997,disney,Disney,walt_disney_studios,Walt Disney,22
+1997,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,23
+1998,news_corp,News Corp,twentieth_century,20th Century Fox,13
+1998,,,artisan_entertainment,Artisan,2
+1998,,,dreamworks,Dreamworks SKG,5
+1998,mgm_parent,Trancinda Corporation,mgm,MGM,5
+1998,disney,Disney,miramax,Miramax,9
+1998,time_warner,Time Warner,new_line_cinema,New Line,9
+1998,viacom,Viacom,paramount_pictures,Paramount Pictures,11
+1998,,,polygram,Polygram,3
+1998,sony,Sony,sony_pictures,Sony Pictures,20
+1998,sony,Sony,tristar_pictures,Sony/TriStar,2
+1998,,,trimark_pictures,Trimark,2
+1998,seagram,Seagram,universal_pictures,Universal,17
+1998,disney,Disney,walt_disney_studios,Walt Disney,19
+1998,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,23
+1999,news_corp,News Corp,twentieth_century,20th Century Fox,14
+1999,,,artisan_entertainment,Artisan,4
+1999,,,dreamworks,Dreamworks SKG,6
+1999,news_corp,News Corp,searchlight_pictures,Fox Searchlight,1
+1999,seagram,Seagram,gramercy_pictures,Gramercy,1
+1999,,,independent_artists,Independent Artists,1
+1999,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,1
+1999,mgm_parent,Trancinda Corporation,mgm,MGM,6
+1999,disney,Disney,miramax,Miramax,7
+1999,time_warner,Time Warner,new_line_cinema,New Line,7
+1999,,,october_films,October Films,2
+1999,viacom,Viacom,paramount_pictures,Paramount Pictures,14
+1999,,,polygram,Polygram,1
+1999,sony,Sony,sony_pictures,Sony Pictures,22
+1999,sony,Sony,tristar_pictures,TriStar Pictures,1
+1999,seagram,Seagram,universal_pictures,Universal,19
+1999,disney,Disney,walt_disney_studios,Walt Disney,19
+1999,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,21
+2000,news_corp,News Corp,twentieth_century,20th Century Fox,15
+2000,,,artisan_entertainment,Artisan,4
+2000,,,destination_films,Destination Films,4
+2000,,,dreamworks,Dreamworks SKG,9
+2000,news_corp,News Corp,searchlight_pictures,Fox Searchlight,1
+2000,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,2
+2000,mgm_parent,Trancinda Corporation,mgm,MGM,5
+2000,disney,Disney,miramax,Miramax,7
+2000,miramax,Miramax,dimension_films,Dimension Films,2
+2000,time_warner,Time Warner,new_line_cinema,New Line,13
+2000,viacom,Viacom,paramount_pictures,Paramount Pictures,14
 2000,sony,Sony,sony_pictures,Sony Pictures,16
-2000,disney,Disney,walt_disney_studios,Disney,16
-2000,seagram,Seagram,universal_pictures,Universal,13
-2000,time_warner,Time Warner,new_line,New Line,13
-2000,news_corp,News Corp,20th_century_fox,20th Century Fox,12
-2000,viacom,Viacom,paramount_pictures,Paramount,12
-2000,disney,Disney,miramax,Miramax,10
-2000,,,dreamworks,DreamWorks,8
-2000,,,destination_films,Destination Films,5
-2000,,,mgm,MGM,4
-2000,,,usa_films,USA Films,4
-2000,,,artisan,Artisan,3
-2000,news_corp,News Corp,fox_searchlight,Fox Searchlight,1
-2000,,,lionsgate,Lionsgate,1
-2000,viacom,Viacom,paramount_vantage,Paramount Vantage,1
-2000,sony,Sony,sony_pictures_classics,Sony Pictures Classics,1
-2000,,,trimark,Trimark,1
-2001,news_corp,News Corp,20th_century_fox,20th Century Fox,15
-2001,disney,Disney,walt_disney_studios,Disney,11
-2001,,,dreamworks,DreamWorks,5
-2001,news_corp,News Corp,fox_searchlight,Fox Searchlight,1
-2001,,,lionsgate,Lionsgate,2
-2001,,,mgm,MGM,8
-2001,disney,Disney,miramax,Miramax,12
-2001,time_warner,AOL Time Warner,new_line,New Line,9
-2001,sony,Sony,sony_pictures,Sony Pictures,17
-2001,seagram,Vivendi Universal,universal_pictures,Universal,11
-2001,,,usa_films,USA Films,1
-2001,time_warner,AOL Time Warner,warner_bros_pictures,Warner Bros.,22
-2001,viacom,Viacom,paramount_pictures,Paramount,14
+2000,lionsgate,Lionsgate,trimark_pictures,Trimark,1
+2000,vivendi_universal,Vivendi Universal,universal_pictures,Universal,15
+2000,,,focus_features,USA Films,3
+2000,disney,Disney,walt_disney_studios,Walt Disney,16
+2000,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,20
+2001,news_corp,News Corp,twentieth_century,20th Century Fox,18
+2001,,,artisan_entertainment,Artisan,1
+2001,,,cloud_ten_pictures,Cloud Ten Pictures,1
+2001,,,dreamworks,Dreamworks SKG,4
+2001,news_corp,News Corp,searchlight_pictures,Fox Searchlight,1
+2001,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,2
+2001,mgm_parent,Trancinda Corporation,mgm,MGM,7
+2001,disney,Disney,miramax,Miramax,10
+2001,miramax,Miramax,dimension_films,Dimension Films,3
+2001,time_warner,AOL Time Warner,new_line_cinema,New Line,9
+2001,viacom,Viacom,paramount_pictures,Paramount Pictures,16
 2001,,,screen_media_films,Screen Media Films,1
+2001,sony,Sony,sony_pictures,Sony Pictures,19
+2001,vivendi_universal,Vivendi Universal,universal_pictures,Universal,12
+2001,,,focus_features,USA Films,1
+2001,disney,Disney,walt_disney_studios,Walt Disney,12
+2001,time_warner,AOL Time Warner,warner_bros_pictures,Warner Bros.,23
+2002,news_corp,News Corp,twentieth_century,20th Century Fox,18
+2002,,,artisan_entertainment,Artisan,2
+2002,,,dreamworks,Dreamworks SKG,7
+2002,news_corp,News Corp,searchlight_pictures,Fox Searchlight,1
+2002,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,3
+2002,mgm_parent,Trancinda Corporation,mgm,MGM,7
+2002,disney,Disney,miramax,Miramax,7
+2002,miramax,Miramax,dimension_films,Dimension Films,3
+2002,time_warner,AOL Time Warner,new_line_cinema,New Line,8
+2002,viacom,Viacom,paramount_pictures,Paramount Pictures,18
+2002,,,screen_media_films,Screen Media Films,1
+2002,sony,Sony,sony_pictures,Sony Pictures,20
+2002,vivendi_universal,Vivendi Universal,universal_pictures,Universal,14
+2002,disney,Disney,walt_disney_studios,Walt Disney,17
+2002,time_warner,AOL Time Warner,warner_bros_pictures,Warner Bros.,23
+2003,news_corp,News Corp,twentieth_century,20th Century Fox,14
+2003,lionsgate,Lionsgate,artisan_entertainment,Artisan,2
+2003,,,dreamworks,Dreamworks SKG,6
+2003,vivendi_universal,Vivendi Universal,focus_features,Focus Features,1
+2003,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,2
+2003,mgm_parent,Trancinda Corporation,mgm,MGM,11
+2003,disney,Disney,miramax,Miramax,7
+2003,miramax,Miramax,dimension_films,Dimension Films,5
+2003,time_warner,Time Warner,new_line_cinema,New Line,9
+2003,viacom,Viacom,paramount_pictures,Paramount Pictures,17
+2003,sony,Sony,sony_pictures,Sony Pictures,23
+2003,vivendi_universal,Vivendi Universal,universal_pictures,Universal,15
+2003,disney,Disney,walt_disney_studios,Walt Disney,16
+2003,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,19
+2004,news_corp,News Corp,twentieth_century,20th Century Fox,18
+2004,,,benji_returns,Benji Returns,1
+2004,,,dreamworks,Dreamworks SKG,8
+2004,,,film_foundry,Film Foundry,1
+2004,vivendi_universal,Vivendi Universal,focus_features,Focus Features,4
+2004,news_corp,News Corp,searchlight_pictures,Fox Searchlight,3
+2004,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,5
+2004,mgm_parent,Trancinda Corporation,mgm,MGM,6
+2004,disney,Disney,miramax,Miramax,7
+2004,miramax,Miramax,dimension_films,Dimension Films,2
+2004,time_warner,Time Warner,new_line_cinema,New Line,7
+2004,,,newmarket_films,Newmarket Films,1
+2004,,,p_and_a_releasing,P&A Releasing,1
+2004,viacom,Viacom,paramount_pictures,Paramount Pictures,15
+2004,sony,Sony,sony_pictures,Sony Pictures,17
+2004,vivendi_universal,Vivendi Universal,universal_pictures,Universal,15
+2004,disney,Disney,walt_disney_studios,Walt Disney,17
+2004,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,23
+2005,news_corp,News Corp,twentieth_century,20th Century Fox,18
+2005,,,dreamworks,Dreamworks SKG,7
+2005,,,embassy,Embassy,1
+2005,,,filmways_pictures,Filmways Pictures,1
+2005,vivendi_universal,Vivendi Universal,focus_features,Focus Features,5
+2005,news_corp,News Corp,searchlight_pictures,Fox Searchlight,2
+2005,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,9
+2005,mgm_parent,MGM Holdings,mgm,MGM,2
+2005,disney,Disney,miramax,Miramax,3
+2005,miramax,Miramax,dimension_films,Dimension Films,6
+2005,time_warner,Time Warner,new_line_cinema,New Line,9
+2005,viacom,Viacom,paramount_pictures,Paramount Pictures,15
+2005,viacom,Viacom,paramount_vantage,Paramount Vantage,1
+2005,,,slowhand_cinema,Slowhand Cinema,1
+2005,sony,Sony,sony_pictures,Sony Pictures,21
+2005,vivendi_universal,Vivendi Universal,universal_pictures,Universal,16
+2005,disney,Disney,walt_disney_studios,Walt Disney,15
+2005,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,15
+2005,time_warner,Time Warner,warner_independent,Warner Independent,1
+2005,,,weinstein_company,Weinstein Co.,2
+2006,news_corp,News Corp,twentieth_century,20th Century Fox,26
+2006,vivendi_universal,Vivendi Universal,focus_features,Focus Features,7
+2006,news_corp,News Corp,searchlight_pictures,Fox Searchlight,3
+2006,,,freestyle_releasing,Freestyle Releasing,1
+2006,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,9
+2006,,,m_power_releasing,M Power Releasing,1
+2006,mgm_parent,MGM Holdings,mgm,MGM,9
+2006,disney,Disney,miramax,Miramax,1
+2006,time_warner,Time Warner,new_line_cinema,New Line,10
+2006,viacom,Viacom,paramount_pictures,Paramount Pictures,16
+2006,,,picturehouse,Picturehouse,1
+2006,,,rocky_mountain_pictures,Rocky Mountain Pictures,1
+2006,,,romar,Romar,1
+2006,sony,Sony,sony_pictures,Sony Pictures,27
+2006,vivendi_universal,Vivendi Universal,universal_pictures,Universal,18
+2006,disney,Disney,walt_disney_studios,Walt Disney,19
+2006,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,16
+2006,,,weinstein_company,The Weinstein Company,5
+2006,weinstein_company,The Weinstein Company,dimension_films,Dimension Films,2
+2007,news_corp,News Corp,twentieth_century,20th Century Fox,21
+2007,,,black_diamond_pictures,Black Diamond Pictures,1
+2007,,,chicago_releasing,Chicago Releasing,1
+2007,,,film_foundry,Film Foundry,1
+2007,,,first_look,First Look,1
+2007,vivendi_universal,Vivendi Universal,focus_features,Focus Features,4
+2007,news_corp,News Corp,searchlight_pictures,Fox Searchlight,1
+2007,,,freestyle_releasing,Freestyle Releasing,2
+2007,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,15
+2007,,,lionsgate_after_dark,Lionsgate/After Dark,2
+2007,mgm_parent,MGM Holdings,mgm,MGM,12
+2007,disney,Disney,miramax,Miramax,1
+2007,time_warner,Time Warner,new_line_cinema,New Line,13
+2007,viacom,Viacom,paramount_pictures,Paramount Pictures,17
+2007,viacom,Viacom,paramount_vantage,Paramount Vantage,2
+2007,,,picturehouse,Picturehouse,1
+2007,,,rocky_mountain_pictures,Rocky Mountain Pictures,1
+2007,,,samuel_goldwyn_films,Samuel Goldwyn Films,1
+2007,sony,Sony,sony_pictures,Sony Pictures,23
+2007,,,summit_entertainment,Summit Entertainment,1
+2007,mgm_parent,MGM Holdings,united_artists,United Artists,1
+2007,vivendi_universal,Vivendi Universal,universal_pictures,Universal,17
+2007,disney,Disney,walt_disney_studios,Walt Disney,16
+2007,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,22
+2007,,,weinstein_company,The Weinstein Company,4
+2007,weinstein_company,The Weinstein Company,dimension_films,Dimension Films,2
+2007,,,yari_film_group,Yari Film Group,4
+2008,news_corp,News Corp,twentieth_century,20th Century Fox,24
+2008,vivendi_universal,Vivendi Universal,focus_features,Focus Features,2
+2008,news_corp,News Corp,searchlight_pictures,Fox Searchlight,2
+2008,,,freestyle_releasing,Freestyle Releasing,4
+2008,,,lightsource,Lightsource,1
+2008,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,15
+2008,mgm_parent,MGM Holdings,mgm,MGM,8
+2008,disney,Disney,miramax,Miramax,2
+2008,time_warner,Time Warner,new_line_cinema,New Line,4
+2008,,,overture_films,Overture Films,4
+2008,viacom,Viacom,paramount_pictures,Paramount Pictures,14
+2008,viacom,Viacom,paramount_vantage,Paramount Vantage,2
+2008,,,picturehouse,Picturehouse,2
+2008,,,rocky_mountain_pictures,Rocky Mountain Pictures,1
+2008,,,samuel_goldwyn_films,Samuel Goldwyn Films,1
+2008,sony,Sony,sony_pictures,Sony Pictures,22
+2008,,,summit_entertainment,Summit Entertainment,3
+2008,mgm_parent,MGM Holdings,united_artists,United Artists,2
+2008,vivendi_universal,Vivendi Universal,universal_pictures,Universal,19
+2008,vivendi_universal,Vivendi Universal,vivendi_entertainment,Vivendi Entertainment,1
+2008,disney,Disney,walt_disney_studios,Walt Disney,12
+2008,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,19
+2008,,,weinstein_company,The Weinstein Company,4
+2008,,,yari_film_group,Yari Film Group,1
+2009,news_corp,News Corp,twentieth_century,20th Century Fox,19
+2009,vivendi_universal,Vivendi Universal,focus_features,Focus Features,3
+2009,news_corp,News Corp,searchlight_pictures,Fox Searchlight,4
+2009,,,freestyle_releasing,Freestyle Releasing,1
+2009,,,full_circle_releasing,Full Circle Releasing,1
+2009,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,10
+2009,mgm_parent,MGM Holdings,mgm,MGM,2
+2009,disney,Disney,miramax,Miramax,3
+2009,,,overture_films,Overture Films,3
+2009,viacom,Viacom,paramount_pictures,Paramount Pictures,11
+2009,viacom,Viacom,paramount_vantage,Paramount Vantage,2
+2009,,,roadside_attractions,Roadside Attractions,1
+2009,sony,Sony,sony_pictures,Sony Pictures,24
+2009,,,summit_entertainment,Summit Entertainment,6
+2009,mgm_parent,MGM Holdings,united_artists,United Artists,1
+2009,vivendi_universal,Vivendi Universal,universal_pictures,Universal,19
+2009,disney,Disney,walt_disney_studios,Walt Disney,14
+2009,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,25
+2009,weinstein_company,The Weinstein Company,dimension_films,Dimension Films,1
+2010,news_corp,News Corp,twentieth_century,20th Century Fox,18
+2010,cbs,CBS,cbs_films,CBS Films,3
+2010,vivendi_universal,Vivendi Universal,focus_features,Focus Features,3
+2010,news_corp,News Corp,searchlight_pictures,Fox Searchlight,2
+2010,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,13
+2010,mgm_parent,MGM Holdings,mgm,MGM,1
+2010,disney,Disney,miramax,Miramax,1
+2010,,,overture_films,Overture Films,4
+2010,viacom,Viacom,paramount_pictures,Paramount Pictures,11
+2010,viacom,Viacom,paramount_vantage,Paramount Vantage,1
+2010,,,relativity_media,Relativity,1
+2010,,,rocky_mountain_pictures,Rocky Mountain Pictures,1
+2010,sony,Sony,sony_pictures,Sony Pictures,21
+2010,,,summit_entertainment,Summit Entertainment,4
+2010,vivendi_universal,Vivendi Universal,universal_pictures,Universal,16
+2010,vivendi_universal,Vivendi Universal,vivendi_entertainment,Vivendi Entertainment,1
+2010,disney,Disney,walt_disney_studios,Walt Disney,13
+2010,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,23
+2010,weinstein_company,The Weinstein Company,dimension_films,Dimension Films,2
+2011,news_corp,News Corp,twentieth_century,20th Century Fox,18
+2011,cbs,CBS,cbs_films,CBS Films,3
+2011,,,filmdistrict,FilmDistrict,4
+2011,comcast,Comcast,focus_features,Focus Features,4
+2011,news_corp,News Corp,searchlight_pictures,Fox Searchlight,1
+2011,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,7
+2011,,,newmarket_films,Newmarket Films,1
+2011,,,omin_freestyle,Omin/Freestyle,1
+2011,,,open_road_films,Open Road,1
+2011,viacom,Viacom,paramount_pictures,Paramount Pictures,14
+2011,,,quaker_media,Quaker Media,1
+2011,,,relativity_media,Relativity,7
+2011,,,roadside_attractions,Roadside Attractions,1
+2011,sony,Sony,sony_pictures,Sony Pictures,24
+2011,,,summit_entertainment,Summit Entertainment,5
+2011,,,the_bubble_factory,The Bubble Factory,1
+2011,comcast,Comcast,universal_pictures,Universal,15
+2011,disney,Disney,walt_disney_studios,Walt Disney,15
+2011,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,21
+2011,,,weinstein_company,The Weinstein Company,4
+2011,weinstein_company,The Weinstein Company,dimension_films,Dimension Films,2
+2012,news_corp,News Corp,twentieth_century,20th Century Fox,17
+2012,,,arc_entertainment,ARC Entertainment,2
+2012,,,atlas_distribution,Atlas Distribution,1
+2012,cbs,CBS,cbs_films,CBS Films,3
+2012,,,filmdistrict,FilmDistrict,1
+2012,comcast,Comcast,focus_features,Focus Features,2
+2012,,,kenn_viselman_presents,Kenn Viselman Presents,1
+2012,,,ld_distribution,LD Distribution,1
+2012,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,16
+2012,,,open_road_films,Open Road,7
+2012,viacom,Viacom,paramount_pictures,Paramount Pictures,14
+2012,,,relativity_media,Relativity,6
+2012,,,rocky_mountain_pictures,Rocky Mountain Pictures,1
+2012,sony,Sony,sony_pictures,Sony Pictures,21
+2012,lionsgate,Lionsgate,summit_entertainment,Summit Entertainment,1
+2012,comcast,Comcast,universal_pictures,Universal,16
+2012,disney,Disney,walt_disney_studios,Walt Disney,10
+2012,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,20
+2012,,,weinstein_company,The Weinstein Company,4
+2013,news_corp,News Corp,twentieth_century,20th Century Fox,16
+2013,cbs,CBS,cbs_films,CBS Films,2
+2013,,,filmdistrict,FilmDistrict,5
+2013,comcast,Comcast,focus_features,Focus Features,4
+2013,news_corp,News Corp,searchlight_pictures,Fox Searchlight,1
+2013,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,16
+2013,,,open_road_films,Open Road,8
+2013,viacom,Viacom,paramount_pictures,Paramount Pictures,13
+2013,,,rcr_media_group,RCR Media Group,1
+2013,,,relativity_media,Relativity,8
+2013,,,roadside_attractions,Roadside Attractions,1
+2013,sony,Sony,sony_pictures,Sony Pictures,15
+2013,comcast,Comcast,universal_pictures,Universal,14
+2013,disney,Disney,walt_disney_studios,Walt Disney,9
+2013,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,18
+2013,,,weinstein_company,The Weinstein Company,6
+2014,news_corp,News Corp,twentieth_century,20th Century Fox,19
+2014,,,a24,A24,1
+2014,,,abramorama_films,Abramorama Films,1
+2014,,,clarius_entertainment,Clarius Entertainment,3
+2014,,,filmdistrict,FilmDistrict,1
+2014,comcast,Comcast,focus_features,Focus Features,1
+2014,news_corp,News Corp,searchlight_pictures,Fox Searchlight,1
+2014,,,freestyle_releasing,Freestyle Releasing,2
+2014,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,15
+2014,,,one_media_llc,"One Media, LLC",1
+2014,,,open_road_films,Open Road,6
+2014,viacom,Viacom,paramount_pictures,Paramount Pictures,11
+2014,,,pure_flix,Pure Flix Entertainment,1
+2014,,,relativity_media,Relativity,9
+2014,sony,Sony,sony_pictures,Sony Pictures,16
+2014,comcast,Comcast,universal_pictures,Universal,15
+2014,disney,Disney,walt_disney_studios,Walt Disney,14
+2014,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,18
+2014,,,weinstein_company,The Weinstein Company,4
+2015,news_corp,News Corp,twentieth_century,20th Century Fox,19
+2015,,,broad_green_pictures,Broad Green Pictures,1
+2015,cbs,CBS,cbs_films,CBS Films,2
+2015,,,clarius_entertainment,Clarius Entertainment,1
+2015,,,europacorp,EuropaCorp,1
+2015,comcast,Comcast,focus_features,Focus Features,3
+2015,news_corp,News Corp,searchlight_pictures,Fox Searchlight,2
+2015,,,freestyle_releasing,Freestyle Releasing,1
+2015,,,high_top_releasing,High Top Releasing,1
+2015,amc_networks,AMC Networks,ifc_films,IFC Films,1
+2015,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,9
+2015,,,open_road_films,Open Road,5
+2015,viacom,Viacom,paramount_pictures,Paramount Pictures,12
+2015,,,pure_flix,Pure Flix Entertainment,2
+2015,,,relativity_media,Relativity,3
+2015,,,samuel_goldwyn_films,Samuel Goldwyn Films,1
+2015,sony,Sony,sony_pictures,Sony Pictures,14
+2015,,,stx_entertainment,STX Entertainment,2
+2015,comcast,Comcast,universal_pictures,Universal,19
+2015,disney,Disney,walt_disney_studios,Walt Disney,13
+2015,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,24
+2015,,,weinstein_company,Weinstein Co.,5
+2016,news_corp,News Corp,twentieth_century,20th Century Fox,17
+2016,,,a24,A24,1
+2016,,,broad_green_pictures,Broad Green Pictures,3
+2016,cbs,CBS,cbs_films,CBS Films,1
+2016,,,europacorp,EuropaCorp,2
+2016,comcast,Comcast,focus_features,Focus Features,6
+2016,news_corp,News Corp,searchlight_pictures,Fox Searchlight,2
+2016,,,freestyle_releasing,Freestyle Releasing,2
+2016,,,high_top_releasing,High Top Releasing,2
+2016,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,17
+2016,,,open_road_films,Open Road,6
+2016,viacom,Viacom,paramount_pictures,Paramount Pictures,13
+2016,,,pure_flix,Pure Flix Entertainment,2
+2016,,,relativity_media,Relativity,2
+2016,,,roadside_attractions,Roadside Attractions,1
+2016,,,smith_global_media,Smith Global Media,1
+2016,sony,Sony,sony_pictures,Sony Pictures,18
+2016,sony,Sony,sony_pictures_classics,Sony Pictures Classics,1
+2016,,,stx_entertainment,STX Entertainment,6
+2016,comcast,Comcast,universal_pictures,Universal,19
+2016,,,viva_entertainment,Viva Entertainment,1
+2016,disney,Disney,walt_disney_studios,Walt Disney,13
+2016,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,21
+2016,,,weinstein_company,The Weinstein Company,2
+2017,news_corp,News Corp,twentieth_century,20th Century Fox,16
+2017,,,a24,A24,2
+2017,,,annapurna_pictures,Annapurna Pictures,1
+2017,,,aviron_pictures,Aviron Pictures,1
+2017,,,bh_tilt,BH Tilt,2
+2017,,,bleecker_street,Bleecker Street,3
+2017,,,broad_green_pictures,Broad Green Pictures,3
+2017,,,electric_entertainment,Electric Entertainment,1
+2017,allen_media_group,Allen Media Group,entertainment_studios,Entertainment Studios,3
+2017,,,europacorp,EuropaCorp,1
+2017,comcast,Comcast,focus_features,Focus Features,2
+2017,news_corp,News Corp,searchlight_pictures,Fox Searchlight,1
+2017,,,high_top_releasing,High Top Releasing,1
+2017,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,13
+2017,,,open_road_films,Open Road,6
+2017,viacom,Viacom,paramount_pictures,Paramount Pictures,11
+2017,,,purdie_distribution,Purdie Distribution,1
+2017,,,pure_flix,Pure Flix Entertainment,3
+2017,,,smith_global_media,Smith Global Media,1
+2017,sony,Sony,sony_pictures,Sony Pictures,14
+2017,sony,Sony,sony_pictures_classics,Sony Pictures Classics,1
+2017,,,stx_entertainment,STX Entertainment,7
+2017,comcast,Comcast,universal_pictures,Universal,15
+2017,disney,Disney,walt_disney_studios,Walt Disney,7
+2017,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,17
+2017,,,weinstein_company,The Weinstein Company,4
+2018,news_corp,News Corp,twentieth_century,20th Century Fox,13
+2018,,,a24,A24,1
+2018,amazon,Amazon,amazon_studios,Amazon Studios,1
+2018,,,annapurna_pictures,Annapurna Pictures,1
+2018,,,artaffects,ArtAffects,1
+2018,,,aviron_pictures,Aviron Pictures,1
+2018,,,bh_tilt,BH Tilt,1
+2018,,,bleecker_street,Bleecker Street,3
+2018,,,briarcliff_entertainment,Briarcliff Entertainment,1
+2018,,,broad_green_pictures,Broad Green Pictures,1
+2018,cbs,CBS,cbs_films,CBS Films,2
+2018,,,electric_entertainment,Electric Entertainment,1
+2018,allen_media_group,Allen Media Group,entertainment_studios,Entertainment Studios,2
+2018,comcast,Comcast,focus_features,Focus Features,2
+2018,,,freestyle_releasing,Freestyle Releasing,1
+2018,,,fun_academy_motion_pictures,Fun Academy Motion Pictures,1
+2018,,,global_road,Global Road,4
+2018,,,gvn_releasing,GVN Releasing,3
+2018,,,ld_entertainment,LD Entertainment,2
+2018,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,12
+2018,mgm_parent,MGM Holdings,mgm,MGM,3
+2018,,,neon,Neon,1
+2018,mgm_parent,MGM Holdings,orion_pictures,Orion Pictures,1
+2018,,,otl_releasing,OTL Releasing,1
+2018,viacom,Viacom,paramount_pictures,Paramount Pictures,11
+2018,,,pinnacle_peak,Pinnacle Peak,1
+2018,,,pure_flix,Pure Flix Entertainment,4
+2018,,,quality_flix,Quality Flix,1
+2018,,,roadside_attractions,Roadside Attractions,2
+2018,sony,Sony,sony_pictures,Sony Pictures,19
+2018,,,stx_entertainment,STX Entertainment,9
+2018,comcast,Comcast,universal_pictures,Universal,17
+2018,disney,Disney,walt_disney_studios,Walt Disney,11
+2018,time_warner,Warner Media (AT&T),warner_bros_pictures,Warner Bros.,20
+2019,,,101_studios,101 Studios,1
+2019,disney,Disney,twentieth_century,20th Century Fox,10
+2019,,,a24,A24,1
+2019,,,annapurna_pictures,Annapurna Pictures,1
+2019,,,aviron_pictures,Aviron Pictures,2
+2019,,,bleecker_street,Bleecker Street,1
+2019,,,briarcliff_entertainment,Briarcliff Entertainment,1
+2019,allen_media_group,Allen Media Group,entertainment_studios,Entertainment Studios,3
+2019,,,esx_entertainment,ESX Entertainment,1
+2019,comcast,Comcast,focus_features,Focus Features,5
+2019,disney,Disney,searchlight_pictures,Fox Searchlight,2
+2019,sony,Sony,funimation,FUNimation,1
+2019,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,14
+2019,mgm_parent,MGM Holdings,mgm,MGM,1
+2019,,,neon,Neon,1
+2019,mgm_parent,MGM Holdings,orion_pictures,Orion Pictures,1
+2019,,,otl_releasing,OTL Releasing,1
+2019,viacom,Viacom,paramount_pictures,Paramount Pictures,11
+2019,,,roadside_attractions,Roadside Attractions,1
+2019,,,sdg_releasing,SDG Releasing,1
+2019,sony,Sony,sony_pictures,Sony Pictures,18
+2019,,,stx_entertainment,STX Entertainment,9
+2019,mgm_parent,MGM Holdings,united_artists,United Artists,6
+2019,comcast,Comcast,universal_pictures,Universal,18
+2019,disney,Disney,walt_disney_studios,Walt Disney,13
+2019,time_warner,Warner Media (AT&T),warner_bros_pictures,Warner Bros.,21
+2020,,,101_studios,101 Studios,1
+2020,disney,Disney,twentieth_century,20th Century Studios,3
+2020,,,cloudburst_entertainment,Cloudburst Entertainment,1
+2020,comcast,Comcast,focus_features,Focus Features,5
+2020,,,freestyle_releasing,Freestyle Releasing,1
+2020,sony,Sony,funimation,FUNimation,1
+2020,,,gravitas_ventures,Gravitas Ventures,2
+2020,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,4
+2020,viacom,ViacomCBS,paramount_pictures,Paramount Pictures,4
+2020,,,roadside_attractions,Roadside Attractions,3
+2020,disney,Disney,searchlight_pictures,Searchlight Pictures,2
+2020,sony,Sony,sony_pictures,Sony Pictures,13
+2020,sony,Sony,sony_pictures_classics,Sony Pictures Classics,1
+2020,,,stx_entertainment,STX Entertainment,4
+2020,mgm_parent,MGM Holdings,united_artists,United Artists,2
+2020,comcast,Comcast,universal_pictures,Universal,13
+2020,disney,Disney,walt_disney_studios,Walt Disney,3
+2020,time_warner,Warner Media (AT&T),warner_bros_pictures,Warner Bros.,7
+2021,disney,Disney,twentieth_century,20th Century Studios,5
+2021,,,a24,A24,2
+2021,,,atlas_distribution,Atlas Distribution,1
+2021,,,bleecker_street,Bleecker Street,2
+2021,comcast,Comcast,focus_features,Focus Features,8
+2021,sony,Sony,funimation,FUNimation,2
+2021,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,7
+2021,,,neon,Neon,2
+2021,,,open_road_films,Open Road,3
+2021,viacom,ViacomCBS,paramount_pictures,Paramount Pictures,4
+2021,,,roadside_attractions,Roadside Attractions,4
+2021,disney,Disney,searchlight_pictures,Searchlight Pictures,4
+2021,sony,Sony,sony_pictures,Sony Pictures,13
+2021,sony,Sony,sony_pictures_classics,Sony Pictures Classics,1
+2021,,,stx_entertainment,STX Entertainment,1
+2021,mgm_parent,MGM Holdings,united_artists,United Artists,5
+2021,comcast,Comcast,universal_pictures,Universal,14
+2021,disney,Disney,walt_disney_studios,Walt Disney,7
+2021,time_warner,Warner Media (AT&T),warner_bros_pictures,Warner Bros.,18
+2022,disney,Disney,twentieth_century,20th Century Studios,7
+2022,,,a24,A24,4
+2022,,,bleecker_street,Bleecker Street,3
+2022,,,blue_fox_entertainment,Blue Fox Entertainment,1
+2022,,,briarcliff_entertainment,Briarcliff Entertainment,1
+2022,sony,Sony,crunchyroll,Crunchyroll,2
+2022,,,fathom_events,Fathom Events,1
+2022,comcast,Comcast,focus_features,Focus Features,6
+2022,disney,Disney,fox_star_india,Fox Star India,1
+2022,sony,Sony,funimation,FUNimation,1
+2022,,,gkids,GKIDS,1
+2022,,,gravitas_ventures,Gravitas Ventures,2
+2022,,,great_india_films,Great India Films,1
+2022,amc_networks,AMC Networks,ifc_films,IFC Films,1
+2022,amc_networks,AMC Networks,ifc_midnight,IFC Midnight,1
+2022,,,ld_entertainment,LD Entertainment,1
+2022,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,5
+2022,,,neon,Neon,1
+2022,,,netflix,Netflix,1
+2022,,,open_road_films,Open Road,2
+2022,viacom,Paramount Global,paramount_pictures,Paramount Pictures,9
+2022,,,roadside_attractions,Roadside Attractions,4
+2022,,,sarigama_cinemas,Sarigama Cinemas,1
+2022,disney,Disney,searchlight_pictures,Searchlight Pictures,3
+2022,sony,Sony,sony_pictures,Sony Pictures,14
+2022,,,the_avenue,The Avenue Entertainment,2
+2022,amazon,Amazon,united_artists,United Artists,4
+2022,comcast,Comcast,universal_pictures,Universal,19
+2022,,,up2u_films,UP2U Films,1
+2022,disney,Disney,walt_disney_studios,Walt Disney,7
+2022,warner_bros_discovery,Warner Bros. Discovery,warner_bros_pictures,Warner Bros.,7
+2023,disney,Disney,twentieth_century,20th Century Studios,4
+2023,,,a24,A24,4
+2023,amazon,Amazon,mgm,Amazon MGM Studios,3
+2023,amazon,Amazon,amazon_studios,Amazon Studios,1
+2023,,,amc_theatres_distribution,AMC Theatres Distribution,2
+2023,,,angel_studios,Angel Studios,4
+2023,,,bleecker_street,Bleecker Street,4
+2023,,,blue_fox_entertainment,Blue Fox Entertainment,1
+2023,,,briarcliff_entertainment,Briarcliff Entertainment,3
+2023,sony,Sony,crunchyroll,Crunchyroll,3
+2023,,,falling_forward_films,Falling Forward Films,1
+2023,,,fathom_events,Fathom Events,3
+2023,comcast,Comcast,focus_features,Focus Features,5
+2023,,,freestyle_releasing,Freestyle Releasing,1
+2023,,,gkids,GKIDS,1
+2023,,,hidden_empire_releasing,Hidden Empire Releasing,1
+2023,,,iconic_releasing,Iconic Releasing,1
+2023,amc_networks,AMC Networks,ifc_films,IFC Films,5
+2023,amc_networks,AMC Networks,ifc_midnight,IFC Midnight,1
+2023,,,ketchup_entertainment,Ketchup Entertainment,1
+2023,lionsgate,Lionsgate,lionsgate_films,Lionsgate Films,12
+2023,,,moksha_movies,Moksha Movies,1
+2023,,,neon,Neon,3
+2023,,,open_road_films,Open Road,1
+2023,viacom,Paramount Global,paramount_pictures,Paramount Pictures,9
+2023,,,prathyangira_cinemas,Prathyangira Cinemas,1
+2023,,,relativity_media,Relativity,1
+2023,,,rlj_entertainment,RLJ Entertainment,1
+2023,,,roadside_attractions,Roadside Attractions,6
+2023,,,sdg_releasing,SDG Releasing,1
+2023,disney,Disney,searchlight_pictures,Searchlight Pictures,3
+2023,sony,Sony,sony_pictures,Sony Pictures,19
+2023,sony,Sony,sony_pictures_classics,Sony Pictures Classics,1
+2023,,,third_day_production,Third Day Production,1
+2023,toho,Toho,toho_international,Toho International,1
+2023,comcast,Comcast,universal_pictures,Universal,15
+2023,,,viva_pictures,Viva Pictures,2
+2023,disney,Disney,walt_disney_studios,Walt Disney,10
+2023,warner_bros_discovery,Warner Bros. Discovery,warner_bros_pictures,Warner Bros.,12
+2023,yash_raj_films_parent,Yash Raj Films,yash_raj_films,Yash Raj Films,3
+2023,,,zee_studios,Zee Studios,1
+2024,disney,Disney,twentieth_century,20th Century Studios,3
+2024,,,a24,A24,7
+2024,amazon,Amazon,mgm,Amazon MGM Studios,6
+2024,,,amc_theatres_distribution,AMC Theatres Distribution,1
+2024,,,angel_studios,Angel Studios,6
+2024,,,atlas_distribution,Atlas Distribution,1
+2024,,,bleecker_street,Bleecker Street,9
+2024,,,blue_fox_entertainment,Blue Fox Entertainment,1
+2024,,,briarcliff_entertainment,Briarcliff Entertainment,3
+2024,sony,Sony,crunchyroll,Crunchyroll,4
+2024,,,falling_forward_films,Falling Forward Films,1
+2024,,,fathom_events,Fathom Events,7
+2024,comcast,Comcast,focus_features,Focus Features,8
+2024,,,freestyle_releasing,Freestyle Releasing,1
+2024,,,gkids,GKIDS,2
+2024,,,iconic_cineverse,Iconic/Cineverse,1
+2024,amc_networks,AMC Networks,ifc_films,IFC Films,6
+2024,,,ketchup_entertainment,Ketchup Entertainment,2
+2024,lionsgate,Lionsgate Studios,lionsgate_films,Lionsgate Films,16
+2024,,,magenta_light_studios,Magenta Light Studios,1
+2024,,,magnolia_pictures,Magnolia Pictures,1
+2024,,,moksha_movies,Moksha Movies,1
+2024,,,moviegoers_entertainment,Moviegoers Entertainment,1
+2024,,,mubi,MUBI,1
+2024,,,mucho_mas_media,Mucho Mas Media,1
+2024,,,neon,Neon,3
+2024,viacom,Paramount Global,paramount_pictures,Paramount Pictures,8
+2024,,,pastime_pictures,Pastime Pictures,1
+2024,,,prathyangira_cinemas,Prathyangira Cinemas,6
+2024,,,roadside_attractions,Roadside Attractions,9
+2024,,,samuel_goldwyn_films,Samuel Goldwyn Films,2
+2024,,,sdg_releasing,SDG Releasing,2
+2024,disney,Disney,searchlight_pictures,Searchlight Pictures,1
+2024,,,showbiz_direct,ShowBiz Direct,1
+2024,,,shree_krishna_film,Shree Krishna Film,1
+2024,sony,Sony,sony_pictures,Sony Pictures,20
+2024,sony,Sony,sony_pictures_classics,Sony Pictures Classics,2
+2024,,,the_avenue,The Avenue Entertainment,1
+2024,toho,Toho,toho_international,Toho International,2
+2024,comcast,Comcast,universal_pictures,Universal,13
+2024,,,vertical_entertainment,Vertical Entertainment,4
+2024,,,viacom18_motion_pictures,Viacom18 Motion Pictures,1
+2024,,,viva_pictures,Viva Pictures,2
+2024,disney,Disney,walt_disney_studios,Walt Disney,6
+2024,warner_bros_discovery,Warner Bros. Discovery,warner_bros_pictures,Warner Bros.,11
+2024,,,well_go_usa,Well Go USA,2
+2024,yash_raj_films_parent,Yash Raj Films,yash_raj_films,Yash Raj Films,1
+2025,disney,Disney,twentieth_century,20th Century Studios,5
+2025,,,a24,A24,9
+2025,amazon,Amazon,mgm,Amazon MGM Studios,5
+2025,,,amc_theatres_distribution,AMC Theatres Distribution,1
+2025,,,angel_studios,Angel Studios,10
+2025,,,black_bear_pictures,Black Bear Pictures,1
+2025,,,bleecker_street,Bleecker Street,5
+2025,,,blue_fox_entertainment,Blue Fox Entertainment,1
+2025,,,briarcliff_entertainment,Briarcliff Entertainment,6
+2025,,,fathom_events,Fathom Entertainment,7
+2025,comcast,Comcast,focus_features,Focus Features,7
+2025,,,gkids,GKIDS,4
+2025,,,iconic_releasing,Iconic Releasing,2
+2025,,,iconic_cineverse,Iconic/Cineverse,1
+2025,amc_networks,AMC Networks,ifc_entertainment_group,IFC Entertainment Group,5
+2025,amc_networks,AMC Networks,ifc_films,IFC Films,3
+2025,,,keep_smokin,Keep Smokin',1
+2025,,,ketchup_entertainment,Ketchup Entertainment,1
+2025,lionsgate,Lionsgate Studios,lionsgate_films,Lionsgate Films,13
+2025,,,mubi,MUBI,1
+2025,,,mucho_mas_media,Mucho Mas Media,1
+2025,,,neon,Neon,6
+2025,,,netflix,Netflix,2
+2025,viacom,Paramount Global,paramount_pictures,Paramount Pictures,10
+2025,,,pinnacle_peak,Pinnacle Peak,1
+2025,,,prathyangira_cinemas,Prathyangira Cinemas,1
+2025,,,rlj_entertainment,RLJ Entertainment,2
+2025,,,roadside_attractions,Roadside Attractions,9
+2025,,,salvation_poem_productions,Salvation Poem Productions,1
+2025,disney,Disney,searchlight_pictures,Searchlight Pictures,3
+2025,,,shloka_entertainment,Shloka Entertainment,1
+2025,sony,Sony,sony_pictures,Sony Pictures,15
+2025,sony,Sony,sony_pictures_classics,Sony Pictures Classics,7
+2025,,,sumerian,Sumerian,1
+2025,,,the_avenue,The Avenue Entertainment,1
+2025,comcast,Comcast,universal_pictures,Universal,16
+2025,,,vertical_entertainment,Vertical Entertainment,6
+2025,,,viva_pictures,Viva Pictures,2
+2025,disney,Disney,walt_disney_studios,Walt Disney,11
+2025,warner_bros_discovery,Warner Bros. Discovery,warner_bros_pictures,Warner Bros.,12
+2025,yash_raj_films_parent,Yash Raj Films,yash_raj_films,Yash Raj Films,2

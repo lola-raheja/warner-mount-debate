@@ -202,6 +202,7 @@ function update(year) {
         updateSel.selectAll('text.parent-label').remove();
         updateSel.each(function(d) { appendParentLabel(this, d); });
         updateSel.transition().duration(TRANSITION_DURATION).ease(d3.easeCubicOut)
+          .style('opacity', 1)
           .attr('transform', d => `translate(${d.x},${Math.max(d.y - d.r + 22, 22)})`);
         return updateSel;
       },
