@@ -28,6 +28,25 @@ const parentPalette = new Map([
   ['viacom', '#8b5cf6']
 ]);
 
+// Brand colors for a distributor's own bubble, keyed by distributor_id so
+// the color stays with the studio's identity even as its parent_id changes
+// across ownership eras (e.g. Universal stays this teal whether its ring
+// that year is Matsushita, Seagram, Vivendi Universal, or Comcast).
+// Warner Bros., Universal, Paramount, Sony, and Disney are all
+// historically blue-branded studios -- kept in the blue family for brand
+// recognition, but spread across navy/teal/electric-blue/cyan/indigo so
+// they stay distinguishable from each other at a glance.
+const distributorBrandColors = new Map([
+  ['warner_bros_pictures', '#003DA5'], // WB shield navy
+  ['universal_pictures', '#0E7C86'], // globe teal
+  ['paramount_pictures', '#0064FF'], // Paramount electric blue
+  ['sony_pictures', '#00A8E1'], // Sony cyan
+  ['walt_disney_studios', '#5B3A8E'], // Disney indigo-purple
+  ['mgm', '#C9A227'], // MGM lion gold
+  ['lionsgate_films', '#E8442C'], // Lionsgate red-orange
+  ['netflix', '#E50914'] // Netflix red
+]);
+
 function parentColor(parentId) {
   return parentPalette.get(parentId) || '#6ea8fe';
 }
@@ -37,6 +56,10 @@ function getStandaloneColor(id) {
   let total = 0;
   for (let i = 0; i < id.length; i += 1) total += id.charCodeAt(i);
   return colors[total % colors.length];
+}
+
+function leafColor(distributorId, fallback) {
+  return distributorBrandColors.get(distributorId) || fallback;
 }
 
 function wrapLabel(name, maxChars = 14) {
@@ -217,7 +240,7 @@ function computeYearNodes(rows, layout) {
           type: 'distributor',
           isStandalone: true,
           year: row.year,
-          color: getStandaloneColor(row.distributor_id)
+          color: leafColor(row.distributor_id, getStandaloneColor(row.distributor_id))
         }
       });
       return;
@@ -243,7 +266,7 @@ function computeYearNodes(rows, layout) {
           parentId,
           type: 'distributor',
           year: row.year,
-          color: parentColor(parentId)
+          color: leafColor(row.distributor_id, parentColor(parentId))
         }
       };
     });
