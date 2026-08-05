@@ -5,6 +5,18 @@ const totalValue = document.getElementById('totalValue');
 const playButton = document.getElementById('playButton');
 const prevButton = document.getElementById('prevButton');
 const nextButton = document.getElementById('nextButton');
+const themeToggle = document.getElementById('themeToggle');
+
+themeToggle.addEventListener('click', () => {
+  const isLight = document.documentElement.dataset.theme === 'light';
+  if (isLight) {
+    delete document.documentElement.dataset.theme;
+  } else {
+    document.documentElement.dataset.theme = 'light';
+  }
+  themeToggle.textContent = isLight ? 'Cream theme' : 'Dark theme';
+  themeToggle.setAttribute('aria-pressed', String(!isLight));
+});
 
 const TRANSITION_DURATION = 1200;
 const EXIT_DURATION = 600;
