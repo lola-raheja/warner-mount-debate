@@ -175,16 +175,22 @@ svg {
 
 .child-node circle {
   fill-opacity: 0.92;
-  stroke: rgba(255,255,255,0.88);
-  stroke-width: 1.4;
+  stroke: none;
   transition: transform 180ms ease, fill-opacity 180ms ease, stroke-width 180ms ease;
+}
+
+/* Independent (standalone, unbranded) distributors get a softer,
+   more translucent treatment so the branded studio bubbles stand out. */
+.child-node.is-standalone:not(.is-branded) circle {
+  fill-opacity: 0.48;
 }
 
 .child-node:hover circle,
 .child-node.is-active circle,
 .child-node:focus circle {
   fill-opacity: 1;
-  stroke-width: 2.8;
+  stroke: rgba(255, 255, 255, 0.55);
+  stroke-width: 2;
 }
 
 .child-label {

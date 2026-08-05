@@ -44,15 +44,20 @@ const distributorBrandColors = new Map([
   ['walt_disney_studios', '#5B3A8E'], // Disney indigo-purple
   ['mgm', '#C9A227'], // MGM lion gold
   ['lionsgate_films', '#E8442C'], // Lionsgate red-orange
-  ['netflix', '#E50914'] // Netflix red
+  ['netflix', '#E50914'], // Netflix red
+  ['crunchyroll', '#F97300'], // Crunchyroll orange
+  ['mubi', '#2A5CFF'] // MUBI blue
 ]);
 
 function parentColor(parentId) {
   return parentPalette.get(parentId) || '#6ea8fe';
 }
 
+// Muted, lower-saturation palette for the many one-off independent
+// distributors that don't have a real brand color -- deliberately soft so
+// they recede next to the studios that do.
 function getStandaloneColor(id) {
-  const colors = ['#78D3F8', '#65789B', '#008685', '#F08BB4', '#94a3b8', '#22c55e', '#f97316'];
+  const colors = ['#8FBFDA', '#7C8AA6', '#4D9B96', '#D9A0B8', '#9AA5B1', '#6FAE83', '#D68A56'];
   let total = 0;
   for (let i = 0; i < id.length; i += 1) total += id.charCodeAt(i);
   return colors[total % colors.length];
@@ -60,6 +65,10 @@ function getStandaloneColor(id) {
 
 function leafColor(distributorId, fallback) {
   return distributorBrandColors.get(distributorId) || fallback;
+}
+
+function isBrandedDistributor(distributorId) {
+  return distributorBrandColors.has(distributorId);
 }
 
 function wrapLabel(name, maxChars = 14) {
@@ -98,7 +107,7 @@ function appendChildLabel(node, d) {
     .attr('x', 0)
     .attr('dy', '1.15em')
     .style('font-size', `${Math.max(9, Math.min(14, d.r / 4.6))}px`)
-    .text(`${d.data.value} films`);
+    .text(d.data.value);
 }
 
 function appendParentLabel(node, d) {
@@ -239,6 +248,7 @@ function computeYearNodes(rows, layout) {
           value: row.title_count,
           type: 'distributor',
           isStandalone: true,
+          isBranded: isBrandedDistributor(row.distributor_id),
           year: row.year,
           color: leafColor(row.distributor_id, getStandaloneColor(row.distributor_id))
         }
@@ -265,6 +275,7 @@ function computeYearNodes(rows, layout) {
           value: row.title_count,
           parentId,
           type: 'distributor',
+          isBranded: isBrandedDistributor(row.distributor_id),
           year: row.year,
           color: leafColor(row.distributor_id, parentColor(parentId))
         }
@@ -367,12 +378,14 @@ function update(year) {
     );
 
   // --- Distributor / standalone circles ---
+  const childNodeClass = d => `child-node${d.data.isStandalone ? ' is-standalone' : ''}${d.data.isBranded ? ' is-branded' : ''}`;
+
   const nodes = childGroup.selectAll('g.child-node')
     .data(allLeaves, d => d.data.id)
     .join(
       enterSel => {
         const g = enterSel.append('g')
-          .attr('class', d => `child-node${d.data.isStandalone ? ' is-standalone' : ''}`)
+          .attr('class', childNodeClass)
           .attr('transform', d => `translate(${d.x},${d.y})`)
           .attr('tabindex', 0);
         g.append('circle').attr('r', 0).attr('fill', d => d.data.color);
@@ -382,7 +395,7 @@ function update(year) {
         return g;
       },
       updateSel => {
-        updateSel.attr('class', d => `child-node${d.data.isStandalone ? ' is-standalone' : ''}`);
+        updateSel.attr('class', childNodeClass);
         updateSel.selectAll('text.child-label').remove();
         updateSel.each(function(d) { appendChildLabel(this, d); });
         updateSel.transition().duration(TRANSITION_DURATION).ease(d3.easeCubicOut)
