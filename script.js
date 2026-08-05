@@ -12,8 +12,12 @@ const EXIT_DURATION = 600;
 // Fixed, resolution-independent coordinate space. The SVG scales to its
 // container purely via CSS (viewBox + width:100%), so this never changes
 // on resize -- which is what lets every bubble's position stay put.
-const CANVAS_WIDTH = 1200;
-const CANVAS_HEIGHT = 760;
+// Square, not the previous 1200x760: the packed mosaic is roughly
+// circular, and fitting a circle to a wide rectangle only uses the
+// shorter dimension -- a square canvas lets both dimensions contribute,
+// which is most of what "the bubbles look small" actually was.
+const CANVAS_WIDTH = 1000;
+const CANVAS_HEIGHT = 1000;
 const MAX_LEAF_RADIUS = 95;
 const PARENT_TOP_PADDING = 12;
 const PARENT_RING_PADDING = 16;
@@ -54,14 +58,17 @@ function parentColor(parentId) {
   return parentPalette.get(parentId) || '#6ea8fe';
 }
 
-// Muted, lower-saturation palette for the many one-off independent
-// distributors that don't have a real brand color -- deliberately soft so
-// they recede next to the studios that do.
+// Muted color for the many one-off independent distributors that don't
+// have a real brand color -- deliberately soft so they recede next to the
+// studios that do, but spread continuously across the hue wheel (rather
+// than picked from a handful of fixed swatches) so that with ~150 of them,
+// neighbors don't keep landing on the same few colors. Saturation and
+// lightness stay fixed so the "soft, receding" quality is consistent.
 function getStandaloneColor(id) {
-  const colors = ['#8FBFDA', '#7C8AA6', '#4D9B96', '#D9A0B8', '#9AA5B1', '#6FAE83', '#D68A56'];
-  let total = 0;
-  for (let i = 0; i < id.length; i += 1) total += id.charCodeAt(i);
-  return colors[total % colors.length];
+  let hash = 0;
+  for (let i = 0; i < id.length; i += 1) hash = (hash * 31 + id.charCodeAt(i)) | 0;
+  const hue = Math.abs(hash) % 360;
+  return `hsl(${hue}, 38%, 58%)`;
 }
 
 function leafColor(distributorId, fallback) {
@@ -203,7 +210,7 @@ function computeFixedLayout(allRows) {
 
   d3.packSiblings(masterCircles);
   const masterEnclosing = d3.packEnclose(masterCircles);
-  const fitScale = (Math.min(CANVAS_WIDTH, CANVAS_HEIGHT) / (2 * masterEnclosing.r)) * 0.94;
+  const fitScale = (Math.min(CANVAS_WIDTH, CANVAS_HEIGHT) / (2 * masterEnclosing.r)) * 0.97;
   const translateX = CANVAS_WIDTH / 2 - masterEnclosing.x * fitScale;
   const translateY = CANVAS_HEIGHT / 2 - masterEnclosing.y * fitScale;
 

@@ -175,7 +175,11 @@ svg {
 
 .child-node circle {
   fill-opacity: 0.92;
-  stroke: none;
+  /* Faint edge, not the old bold border -- now that bubbles border each
+     other directly, this is what keeps two similarly-colored neighbors
+     from visually fusing into one shape at their shared edge. */
+  stroke: rgba(255, 255, 255, 0.16);
+  stroke-width: 1;
   transition: transform 180ms ease, fill-opacity 180ms ease, stroke-width 180ms ease;
 }
 
@@ -198,11 +202,18 @@ svg {
   text-anchor: middle;
   font-weight: 700;
   pointer-events: none;
+  /* Same halo trick as the parent labels, sized down to match the smaller
+     text here -- guarantees legibility regardless of which of the now
+     much more varied bubble colors sits underneath. */
+  paint-order: stroke fill;
+  stroke: rgba(6, 9, 14, 0.8);
+  stroke-width: 2.5px;
+  stroke-linejoin: round;
 }
 
 .child-label .count {
   font-weight: 500;
-  fill: rgba(255,255,255,0.8);
+  fill: rgba(255,255,255,0.85);
 }
 
 .tooltip {
