@@ -122,14 +122,17 @@ function appendParentLabel(node, d) {
   });
 }
 
-// Precompute a fixed "map" of anchor positions from the whole dataset, once,
-// instead of letting d3.pack() re-solve the layout from scratch every year.
-// Each parent company and each ever-standalone distributor gets one fixed
-// (x, y) slot; each distributor gets a fixed offset within whichever
-// parent(s) it's ever belonged to. Per-year renders only change radius
-// (via a shared, constant value scale) -- position changes only when a
-// distributor's actual parent_id changes between years, which is the
-// visual cue for a merger/acquisition.
+// Precompute a "home" position for every parent company and every
+// ever-standalone distributor, once, plus a fixed offset for each
+// distributor within whichever parent(s) it's ever belonged to. Homes are
+// sized from each parent's *typical* (median) yearly footprint rather than
+// its all-time peak -- computeYearNodes below resolves actual overlaps
+// live with a force simulation, so home spacing no longer has to reserve
+// space for a worst case that may never really happen. A distributor's
+// on-screen position changes only when its actual parent_id changes
+// between years (the visual cue for a merger/acquisition), or when a
+// crowded year nudges it slightly off home to avoid overlapping a
+// neighbor -- both are small, meaningful movements, not a full reshuffle.
 function computeFixedLayout(allRows) {
   const childMaxByParent = new Map(); // parent_id -> Map(distributor_id -> maxValue)
   const standaloneMax = new Map(); // distributor_id -> maxValue while standalone
@@ -152,7 +155,7 @@ function computeFixedLayout(allRows) {
 
   // Each child gets a fixed offset sized to fit it at its own individual
   // peak (padded slots, packed once) -- this is what keeps a distributor's
-  // position stable and gives it room to grow into.
+  // position stable within its parent and gives it room to grow into.
   const childOffset = new Map(); // parent_id -> Map(distributor_id -> {dx, dy})
   childMaxByParent.forEach((kidsMap, parentId) => {
     const padded = Array.from(kidsMap, ([id, value]) => ({ id, r: rScale0(value) + CHILD_SUB_PADDING }));
@@ -163,34 +166,29 @@ function computeFixedLayout(allRows) {
     childOffset.set(parentId, offsets);
   });
 
-  // Anchor spacing between parents needs enough room for the biggest ring
-  // this parent ever ACTUALLY needed. Using every child's individual peak
-  // simultaneously (i.e. the offset slots above) would reserve space for a
-  // combination that likely never really happened; instead, replay real
-  // history through the exact same enclosing-radius formula the per-year
-  // renderer uses, and take the highest value it ever actually produced.
-  const parentFootprint = new Map(); // parent_id -> historical peak ring radius
+  // Typical (median, not peak) ring radius this parent has actually needed
+  // across its history, replaying real years through the same
+  // enclosing-radius formula the per-year renderer uses.
+  const parentFootprint = new Map(); // parent_id -> typical ring radius
   const rowsByParent = d3.group(allRows.filter(r => r.parent_id), r => r.parent_id);
   childMaxByParent.forEach((kidsMap, parentId) => {
     const offsets = childOffset.get(parentId);
     const byYear = d3.group(rowsByParent.get(parentId) || [], r => r.year);
-    let peakReach = 0;
+    const reaches = [];
     byYear.forEach(yearRows => {
       let reach = 0;
       yearRows.forEach(row => {
         const offset = offsets.get(row.distributor_id) || { dx: 0, dy: 0 };
         reach = Math.max(reach, Math.hypot(offset.dx, offset.dy) + rScale0(row.title_count));
       });
-      peakReach = Math.max(peakReach, reach);
+      reaches.push(reach);
     });
-    parentFootprint.set(parentId, peakReach + PARENT_RING_PADDING);
+    parentFootprint.set(parentId, (d3.median(reaches) || 0) + PARENT_RING_PADDING);
   });
 
-  // Arrange parents (by worst-case footprint) and ever-standalone
-  // distributors (by peak size) together, compactly and without overlap,
-  // then fit that arrangement into the fixed canvas. The same fit scale
-  // is applied to the leaf radius scale below, so real per-year bubbles
-  // -- always smaller than this worst-case arrangement -- never collide.
+  // Arrange parents (by typical footprint) and ever-standalone
+  // distributors (by peak size) together, compactly, then fit that
+  // arrangement into the fixed canvas.
   const masterCircles = [];
   parentFootprint.forEach((r, parentId) => masterCircles.push({ id: parentId, r: r + PARENT_TOP_PADDING, isParent: true }));
   standaloneMax.forEach((maxVal, distributorId) => masterCircles.push({ id: distributorId, r: rScale0(maxVal) + PARENT_TOP_PADDING, isParent: false }));
@@ -201,11 +199,11 @@ function computeFixedLayout(allRows) {
   const translateX = CANVAS_WIDTH / 2 - masterEnclosing.x * fitScale;
   const translateY = CANVAS_HEIGHT / 2 - masterEnclosing.y * fitScale;
 
-  const parentAnchor = new Map();
-  const standaloneAnchor = new Map();
+  const parentHome = new Map();
+  const standaloneHome = new Map();
   masterCircles.forEach(c => {
-    const target = c.isParent ? parentAnchor : standaloneAnchor;
-    target.set(c.id, { x: c.x * fitScale + translateX, y: c.y * fitScale + translateY, r: c.r * fitScale });
+    const target = c.isParent ? parentHome : standaloneHome;
+    target.set(c.id, { x: c.x * fitScale + translateX, y: c.y * fitScale + translateY });
   });
 
   const scaledChildOffset = new Map();
@@ -216,32 +214,66 @@ function computeFixedLayout(allRows) {
   });
 
   const rScale = d3.scaleSqrt().domain([0, maxValue]).range([0, MAX_LEAF_RADIUS * fitScale]);
-
-  // computeYearNodes adds this (rather than the raw PARENT_RING_PADDING
-  // constant) so the ring padding it draws with matches, at the same
-  // scale, the padding that was actually reserved for it above -- adding
-  // the raw constant post-fit would apply full-size padding on top of a
-  // shrunk reservation and reopen the overlap this function exists to fix.
   const ringPadding = PARENT_RING_PADDING * fitScale;
 
-  return { parentAnchor, standaloneAnchor, childOffset: scaledChildOffset, rScale, ringPadding };
+  return { parentHome, standaloneHome, childOffset: scaledChildOffset, rScale, ringPadding };
+}
+
+// Resolves this year's actual macro layout (parent rings + standalone
+// bubbles) with a short, deterministic force simulation: every node starts
+// pinned to its fixed home and is pulled back toward it, while a collision
+// force nudges apart only whichever nodes actually overlap at their real
+// this-year size. Nodes are always given explicit starting x/y (never left
+// for d3-force to randomize), so the same year's data always resolves to
+// the exact same positions -- this is what keeps "10 years is loosely
+// packed, 1996 is dense" from ever looking different between visits.
+function resolveMacroLayout(entries) {
+  const nodes = entries.map(e => ({ ...e, x: e.home.x, y: e.home.y }));
+  const simulation = d3.forceSimulation(nodes)
+    .force('x', d3.forceX(d => d.home.x).strength(0.3))
+    .force('y', d3.forceY(d => d.home.y).strength(0.3))
+    .force('collide', d3.forceCollide(d => d.r + 6).strength(1))
+    .stop();
+  for (let i = 0; i < 300; i += 1) simulation.tick();
+  return nodes;
 }
 
 function computeYearNodes(rows, layout) {
   const grouped = d3.group(rows, d => d.parent_id || `standalone__${d.distributor_id}`);
-  const parentNodes = [];
-  const allLeaves = [];
+  const macroEntries = [];
 
   grouped.forEach(groupRows => {
     const first = groupRows[0];
 
     if (!first.parent_id) {
       const row = first;
-      const anchor = layout.standaloneAnchor.get(row.distributor_id) || { x: CANVAS_WIDTH / 2, y: CANVAS_HEIGHT / 2 };
+      const home = layout.standaloneHome.get(row.distributor_id) || { x: CANVAS_WIDTH / 2, y: CANVAS_HEIGHT / 2 };
+      macroEntries.push({ kind: 'standalone', row, r: layout.rScale(row.title_count), home });
+      return;
+    }
+
+    const parentId = first.parent_id;
+    const home = layout.parentHome.get(parentId) || { x: CANVAS_WIDTH / 2, y: CANVAS_HEIGHT / 2 };
+    const offsets = layout.childOffset.get(parentId) || new Map();
+    let maxReach = 0;
+    groupRows.forEach(row => {
+      const offset = offsets.get(row.distributor_id) || { dx: 0, dy: 0 };
+      maxReach = Math.max(maxReach, Math.hypot(offset.dx, offset.dy) + layout.rScale(row.title_count));
+    });
+    macroEntries.push({ kind: 'parent', parentId, groupRows, offsets, r: maxReach + layout.ringPadding, home });
+  });
+
+  const resolved = resolveMacroLayout(macroEntries);
+  const parentNodes = [];
+  const allLeaves = [];
+
+  resolved.forEach(node => {
+    if (node.kind === 'standalone') {
+      const row = node.row;
       allLeaves.push({
-        x: anchor.x,
-        y: anchor.y,
-        r: layout.rScale(row.title_count),
+        x: node.x,
+        y: node.y,
+        r: node.r,
         data: {
           id: row.distributor_id,
           name: row.distributor_label,
@@ -256,41 +288,34 @@ function computeYearNodes(rows, layout) {
       return;
     }
 
-    const parentId = first.parent_id;
-    const anchor = layout.parentAnchor.get(parentId) || { x: CANVAS_WIDTH / 2, y: CANVAS_HEIGHT / 2 };
-    const offsets = layout.childOffset.get(parentId) || new Map();
-    let maxReach = 0;
-
-    const children = groupRows.map(row => {
-      const offset = offsets.get(row.distributor_id) || { dx: 0, dy: 0 };
-      const r = layout.rScale(row.title_count);
-      maxReach = Math.max(maxReach, Math.hypot(offset.dx, offset.dy) + r);
+    const children = node.groupRows.map(row => {
+      const offset = node.offsets.get(row.distributor_id) || { dx: 0, dy: 0 };
       return {
-        x: anchor.x + offset.dx,
-        y: anchor.y + offset.dy,
-        r,
+        x: node.x + offset.dx,
+        y: node.y + offset.dy,
+        r: layout.rScale(row.title_count),
         data: {
           id: row.distributor_id,
           name: row.distributor_label,
           value: row.title_count,
-          parentId,
+          parentId: node.parentId,
           type: 'distributor',
           isBranded: isBrandedDistributor(row.distributor_id),
           year: row.year,
-          color: leafColor(row.distributor_id, parentColor(parentId))
+          color: leafColor(row.distributor_id, parentColor(node.parentId))
         }
       };
     });
 
     parentNodes.push({
-      x: anchor.x,
-      y: anchor.y,
-      r: maxReach + layout.ringPadding,
+      x: node.x,
+      y: node.y,
+      r: node.r,
       data: {
-        id: parentId,
-        name: first.parent_label,
+        id: node.parentId,
+        name: node.groupRows[0].parent_label,
         type: 'parent',
-        color: parentColor(parentId)
+        color: parentColor(node.parentId)
       }
     });
     allLeaves.push(...children);
