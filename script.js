@@ -19,8 +19,6 @@ const PARENT_TOP_PADDING = 12;
 const PARENT_RING_PADDING = 16;
 const CHILD_SUB_PADDING = 8;
 const STANDALONE_PADDING = 4; // independents get a much tighter pad than parents -- less reserved space
-const CORE_GAP = 8; // gap between the central parent cluster and the innermost ring of independents
-const RING_ITEM_GAP = 3; // gap between neighboring independents within the same ring band
 
 const parentPalette = new Map([
   ['time_warner', '#5B8FF9'],
@@ -72,39 +70,6 @@ function leafColor(distributorId, fallback) {
 
 function isBrandedDistributor(distributorId) {
   return distributorBrandColors.has(distributorId);
-}
-
-// Arranges `circles` in concentric shells around `core`, closest-first --
-// callers must pass circles pre-sorted descending by radius. Each shell is
-// filled at a single fixed distance from the core, spending angular budget
-// (2*pi) on consecutive circles until it's full, then steps out to start
-// the next shell. Because circles arrive biggest-first, the innermost
-// shells end up holding the biggest circles and each shell out is smaller
-// than the last -- so a distributor's distance from the majors falls out
-// directly from its size, with no separate distance calculation needed.
-// Deterministic (no RNG, no search/retry loop), so the same input always
-// produces the same ring.
-function packAroundCore(core, circles) {
-  let radius = core.r;
-  let i = 0;
-  while (i < circles.length) {
-    radius += CORE_GAP + circles[i].r;
-    let angleUsed = 0;
-    let shellMaxR = 0;
-    while (i < circles.length) {
-      const circle = circles[i];
-      const angleWidth = 2 * Math.atan((circle.r + RING_ITEM_GAP / 2) / radius);
-      if (angleUsed > 0 && angleUsed + angleWidth > Math.PI * 2) break;
-      const angle = angleUsed + angleWidth / 2;
-      circle.x = core.x + radius * Math.cos(angle);
-      circle.y = core.y + radius * Math.sin(angle);
-      angleUsed += angleWidth;
-      shellMaxR = Math.max(shellMaxR, circle.r);
-      i += 1;
-    }
-    radius += shellMaxR;
-  }
-  return circles;
 }
 
 function wrapLabel(name, maxChars = 14) {
@@ -222,26 +187,22 @@ function computeFixedLayout(allRows) {
     parentFootprint.set(parentId, (d3.median(reaches) || 0) + PARENT_RING_PADDING);
   });
 
-  // Parent companies are the story here, so they get packed into one tight
-  // central cluster -- bordering each other, not spread out competing for
-  // space with the much larger number of small independents. Independents
-  // are then arranged in a ring around that cluster instead of being
-  // packed in the same pass, which is what was pushing the parents apart
-  // and leaving gaps between them.
-  const parentCircles = [];
-  parentFootprint.forEach((r, parentId) => parentCircles.push({ id: parentId, r: r + PARENT_TOP_PADDING, isParent: true }));
-  d3.packSiblings(parentCircles);
-  const core = d3.packEnclose(parentCircles);
+  // Pack every parent and every ever-standalone distributor together in
+  // ONE pass, sorted biggest-first, so the whole thing forms a single
+  // touching mosaic -- no artificial boundary between "the parent zone"
+  // and "the independents zone". A front-chain packer (which is what
+  // packSiblings is) naturally keeps the earliest (largest) circles most
+  // central and nests each new, smaller circle into the gaps of the
+  // existing mass, so sorting descending by size is what makes "more
+  // films = closer to the majors" fall out on its own, with every bubble
+  // still bordering its neighbors.
+  const masterCircles = [];
+  parentFootprint.forEach((r, parentId) => masterCircles.push({ id: parentId, r: r + PARENT_TOP_PADDING, isParent: true }));
+  standaloneMax.forEach((maxVal, distributorId) => masterCircles.push({ id: distributorId, r: rScale0(maxVal) + STANDALONE_PADDING, isParent: false }));
+  masterCircles.sort((a, b) => b.r - a.r);
 
-  const standaloneCircles = Array.from(standaloneMax, ([distributorId, maxVal]) => ({
-    id: distributorId,
-    r: rScale0(maxVal) + STANDALONE_PADDING,
-    isParent: false
-  })).sort((a, b) => b.r - a.r);
-  packAroundCore(core, standaloneCircles);
-
-  const masterCircles = parentCircles.concat(standaloneCircles);
-  const masterEnclosing = d3.packEnclose([core, ...standaloneCircles]);
+  d3.packSiblings(masterCircles);
+  const masterEnclosing = d3.packEnclose(masterCircles);
   const fitScale = (Math.min(CANVAS_WIDTH, CANVAS_HEIGHT) / (2 * masterEnclosing.r)) * 0.94;
   const translateX = CANVAS_WIDTH / 2 - masterEnclosing.x * fitScale;
   const translateY = CANVAS_HEIGHT / 2 - masterEnclosing.y * fitScale;
@@ -281,19 +242,26 @@ function resolveMacroLayout(entries) {
     ? { x: d3.mean(parentEntries, e => e.home.x), y: d3.mean(parentEntries, e => e.home.y) }
     : null;
 
-  // Home positions are laid out once from all 23 parents this dataset ever
-  // has, but any single year only activates a handful of them -- so the
-  // active ones can land in different neighborhoods of that full
-  // arrangement, separated by gaps where currently-dormant parents' homes
-  // sit. Blending each active parent's home toward this year's active
-  // centroid pulls them into one compact cluster instead of leaving them
-  // scattered; independents keep their own unblended home so they stay in
-  // the outer ring around whatever shape the parent cluster takes.
-  const CENTROID_BLEND = 0.85;
+  // Home positions are laid out once from all 23 parents (and ~124
+  // independents) this dataset ever has, but any single year only
+  // activates a fraction of them -- so the active ones can land in
+  // different neighborhoods of that full arrangement, separated by gaps
+  // where currently-dormant entities' homes sit. Blending each active
+  // node's home toward this year's active *parent* centroid pulls
+  // everything into one compact, bordering mass instead of leaving it
+  // scattered. Parents blend hard (they're meant to form one solid core);
+  // independents blend gently, just enough to follow the core to wherever
+  // it lands this year while still fanning out based on their own
+  // pre-packed position relative to their actual nearest neighbors.
+  const PARENT_BLEND = 0.85;
+  const STANDALONE_BLEND = 0.35;
   const nodes = entries.map(e => {
-    const target = centroid && e.kind === 'parent'
-      ? { x: e.home.x + (centroid.x - e.home.x) * CENTROID_BLEND, y: e.home.y + (centroid.y - e.home.y) * CENTROID_BLEND }
-      : e.home;
+    if (!centroid) return { ...e, target: e.home, x: e.home.x, y: e.home.y };
+    const blend = e.kind === 'parent' ? PARENT_BLEND : STANDALONE_BLEND;
+    const target = {
+      x: e.home.x + (centroid.x - e.home.x) * blend,
+      y: e.home.y + (centroid.y - e.home.y) * blend
+    };
     return { ...e, target, x: target.x, y: target.y };
   });
 
