@@ -41,7 +41,7 @@ function pickCanvasSize() {
   const ratio = clamp(window.innerWidth / window.innerHeight, 1.05, 1.3);
   return { width: Math.round(BASE_SIZE * ratio), height: BASE_SIZE };
 }
-const MAX_LEAF_RADIUS = 95;
+const MAX_LEAF_RADIUS = 130;
 const PARENT_TOP_PADDING = 12;
 const PARENT_RING_PADDING = 16;
 const CHILD_SUB_PADDING = 8;
@@ -217,31 +217,58 @@ function computeFixedLayout(allRows) {
     parentFootprint.set(parentId, (d3.median(reaches) || 0) + PARENT_RING_PADDING);
   });
 
-  // Pack every parent and every ever-standalone distributor together in
+  // Independents cluster together as ONE blob rather than being scattered
+  // individually into whatever gaps the master pack finds -- same
+  // fixed-offset-within-a-shared-anchor technique as childOffset above,
+  // just with a single implicit "parent" (the independent cluster itself)
+  // instead of a real studio. Sorting descending keeps the biggest
+  // independents most central within their own cluster.
+  const standalonePadded = Array.from(standaloneMax, ([id, value]) => ({ id, r: rScale0(value) + STANDALONE_PADDING }));
+  standalonePadded.sort((a, b) => b.r - a.r);
+  d3.packSiblings(standalonePadded);
+  const standaloneEnclosing = d3.packEnclose(standalonePadded);
+  const standaloneOffset = new Map();
+  standalonePadded.forEach(c => standaloneOffset.set(c.id, { dx: c.x - standaloneEnclosing.x, dy: c.y - standaloneEnclosing.y }));
+
+  // Typical (median) footprint of the whole independent cluster, same
+  // replay-real-years approach as parentFootprint above.
+  const standaloneByYear = d3.group(allRows.filter(r => !r.parent_id), r => r.year);
+  const standaloneReaches = [];
+  standaloneByYear.forEach(yearRows => {
+    let reach = 0;
+    yearRows.forEach(row => {
+      const offset = standaloneOffset.get(row.distributor_id) || { dx: 0, dy: 0 };
+      reach = Math.max(reach, Math.hypot(offset.dx, offset.dy) + rScale0(row.title_count));
+    });
+    standaloneReaches.push(reach);
+  });
+  const independentFootprint = (d3.median(standaloneReaches) || 0) + PARENT_RING_PADDING;
+
+  // Pack every parent PLUS the single independent-cluster blob together in
   // ONE pass, sorted biggest-first, so the whole thing forms a single
   // touching mosaic -- no artificial boundary between "the parent zone"
-  // and "the independents zone". A front-chain packer (which is what
-  // packSiblings is) naturally keeps the earliest (largest) circles most
-  // central and nests each new, smaller circle into the gaps of the
-  // existing mass, so sorting descending by size is what makes "more
-  // films = closer to the majors" fall out on its own, with every bubble
-  // still bordering its neighbors.
+  // and "the independents zone", just two (now internally-clustered)
+  // macro-units bordering each other like any other pair of neighbors. A
+  // front-chain packer (which is what packSiblings is) naturally keeps the
+  // earliest (largest) circles most central and nests each new, smaller
+  // circle into the gaps of the existing mass.
   const masterCircles = [];
   parentFootprint.forEach((r, parentId) => masterCircles.push({ id: parentId, r: r + PARENT_TOP_PADDING, isParent: true }));
-  standaloneMax.forEach((maxVal, distributorId) => masterCircles.push({ id: distributorId, r: rScale0(maxVal) + STANDALONE_PADDING, isParent: false }));
+  masterCircles.push({ id: '__independents__', r: independentFootprint, isParent: false, isIndependentCluster: true });
   masterCircles.sort((a, b) => b.r - a.r);
 
   d3.packSiblings(masterCircles);
   const masterEnclosing = d3.packEnclose(masterCircles);
-  const fitScale = (Math.min(CANVAS_WIDTH, CANVAS_HEIGHT) / (2 * masterEnclosing.r)) * 0.97;
+  const fitScale = (Math.min(CANVAS_WIDTH, CANVAS_HEIGHT) / (2 * masterEnclosing.r)) * 0.985;
   const translateX = CANVAS_WIDTH / 2 - masterEnclosing.x * fitScale;
   const translateY = CANVAS_HEIGHT / 2 - masterEnclosing.y * fitScale;
 
   const parentHome = new Map();
-  const standaloneHome = new Map();
+  let independentClusterHome = null;
   masterCircles.forEach(c => {
-    const target = c.isParent ? parentHome : standaloneHome;
-    target.set(c.id, { x: c.x * fitScale + translateX, y: c.y * fitScale + translateY });
+    const pos = { x: c.x * fitScale + translateX, y: c.y * fitScale + translateY };
+    if (c.isIndependentCluster) independentClusterHome = pos;
+    else parentHome.set(c.id, pos);
   });
 
   const scaledChildOffset = new Map();
@@ -254,71 +281,73 @@ function computeFixedLayout(allRows) {
   const rScale = d3.scaleSqrt().domain([0, maxValue]).range([0, MAX_LEAF_RADIUS * fitScale]);
   const ringPadding = PARENT_RING_PADDING * fitScale;
 
-  return { parentHome, standaloneHome, childOffset: scaledChildOffset, rScale, ringPadding };
+  return {
+    parentHome,
+    independentClusterHome,
+    childOffset: scaledChildOffset,
+    rScale,
+    ringPadding
+  };
 }
 
-// Resolves this year's actual macro layout (parent rings + standalone
-// bubbles) with a short, deterministic force simulation: every node starts
-// pinned to its (possibly centroid-blended, see below) target and is
-// pulled back toward it, while a collision force nudges apart only
-// whichever nodes actually overlap at their real this-year size. Nodes are
-// always given explicit starting x/y (never left for d3-force to
-// randomize), so the same year's data always resolves to the exact same
-// positions -- this is what keeps "2010 is loosely packed, 1996 is dense"
-// from ever looking different between visits.
-function resolveMacroLayout(entries) {
-  const parentEntries = entries.filter(e => e.kind === 'parent');
-  const centroid = parentEntries.length > 1
-    ? { x: d3.mean(parentEntries, e => e.home.x), y: d3.mean(parentEntries, e => e.home.y) }
+// Resolves a set of entries (each with a fixed .home and .r) into actual
+// this-year positions with a short, deterministic force simulation: every
+// node starts pinned to its centroid-blended target and is pulled back
+// toward it, while a collision force nudges apart only whichever nodes
+// actually overlap at their real this-year size. Nodes are always given
+// explicit starting x/y (never left for d3-force to randomize), so the
+// same input always resolves to the exact same positions -- this is what
+// keeps "2010 is loosely packed, 1996 is dense" from ever looking
+// different between visits.
+//
+// Home positions are laid out once from *every* entity a group (all
+// parents, or all ever-standalone distributors) has across all 36 years,
+// but any single year only activates a fraction of them -- so the active
+// ones can land in different neighborhoods of that full arrangement,
+// separated by gaps where currently-dormant entities' homes sit. Blending
+// each active node's home toward *this year's active* centroid pulls
+// everything into one compact, bordering mass instead of leaving it
+// scattered around old gaps. Used twice: once for the macro layout
+// (parent rings + the independent cluster as a whole), and again inside
+// the independent cluster itself (this year's active independents against
+// each other) -- same gap, same fix, one level deeper.
+function resolveCluster(entries, blendStrength, collidePad = 3, ticks = 300, forceStrength = 0.3) {
+  if (entries.length === 0) return [];
+  const centroid = entries.length > 1
+    ? { x: d3.mean(entries, e => e.home.x), y: d3.mean(entries, e => e.home.y) }
     : null;
 
-  // Home positions are laid out once from all 23 parents (and ~124
-  // independents) this dataset ever has, but any single year only
-  // activates a fraction of them -- so the active ones can land in
-  // different neighborhoods of that full arrangement, separated by gaps
-  // where currently-dormant entities' homes sit. Blending each active
-  // node's home toward this year's active *parent* centroid pulls
-  // everything into one compact, bordering mass instead of leaving it
-  // scattered. Parents blend hard (they're meant to form one solid core);
-  // independents blend gently, just enough to follow the core to wherever
-  // it lands this year while still fanning out based on their own
-  // pre-packed position relative to their actual nearest neighbors.
-  const PARENT_BLEND = 0.85;
-  const STANDALONE_BLEND = 0.35;
   const nodes = entries.map(e => {
     if (!centroid) return { ...e, target: e.home, x: e.home.x, y: e.home.y };
-    const blend = e.kind === 'parent' ? PARENT_BLEND : STANDALONE_BLEND;
     const target = {
-      x: e.home.x + (centroid.x - e.home.x) * blend,
-      y: e.home.y + (centroid.y - e.home.y) * blend
+      x: e.home.x + (centroid.x - e.home.x) * blendStrength,
+      y: e.home.y + (centroid.y - e.home.y) * blendStrength
     };
     return { ...e, target, x: target.x, y: target.y };
   });
 
   const simulation = d3.forceSimulation(nodes)
-    .force('x', d3.forceX(d => d.target.x).strength(0.3))
-    .force('y', d3.forceY(d => d.target.y).strength(0.3))
-    .force('collide', d3.forceCollide(d => d.r + 3).strength(1))
+    .force('x', d3.forceX(d => d.target.x).strength(forceStrength))
+    .force('y', d3.forceY(d => d.target.y).strength(forceStrength))
+    .force('collide', d3.forceCollide(d => d.r + collidePad).strength(1))
     .stop();
-  for (let i = 0; i < 300; i += 1) simulation.tick();
+  for (let i = 0; i < ticks; i += 1) simulation.tick();
   return nodes;
 }
 
+const MACRO_BLEND = 0.85; // parents + the independent cluster, against each other
+
+function resolveMacroLayout(entries) {
+  return resolveCluster(entries, MACRO_BLEND);
+}
+
 function computeYearNodes(rows, layout) {
-  const grouped = d3.group(rows, d => d.parent_id || `standalone__${d.distributor_id}`);
+  const parentGrouped = d3.group(rows.filter(d => d.parent_id), d => d.parent_id);
+  const standaloneRows = rows.filter(d => !d.parent_id);
   const macroEntries = [];
 
-  grouped.forEach(groupRows => {
-    const first = groupRows[0];
-
-    if (!first.parent_id) {
-      const row = first;
-      const home = layout.standaloneHome.get(row.distributor_id) || { x: CANVAS_WIDTH / 2, y: CANVAS_HEIGHT / 2 };
-      macroEntries.push({ kind: 'standalone', row, r: layout.rScale(row.title_count), home });
-      return;
-    }
-
-    const parentId = first.parent_id;
+  parentGrouped.forEach(groupRows => {
+    const parentId = groupRows[0].parent_id;
     const home = layout.parentHome.get(parentId) || { x: CANVAS_WIDTH / 2, y: CANVAS_HEIGHT / 2 };
     const offsets = layout.childOffset.get(parentId) || new Map();
     let maxReach = 0;
@@ -329,27 +358,59 @@ function computeYearNodes(rows, layout) {
     macroEntries.push({ kind: 'parent', parentId, groupRows, offsets, r: maxReach + layout.ringPadding, home });
   });
 
+  if (standaloneRows.length) {
+    // Only a fraction of all ever-standalone distributors are active in any
+    // given year -- sometimes just a handful, out of ~124 across all 36
+    // years -- so a fixed all-time offset (the childOffset technique used
+    // for real parents above) leaves this year's few active ones scattered
+    // across gaps left by whichever neighbors are currently dormant, with
+    // no guarantee a short force simulation pulls severe outliers back in.
+    // A real parent doesn't have this problem because it only ever has a
+    // handful of children total. So instead: pack THIS YEAR's active
+    // independents fresh, every year, with the same front-chain packer
+    // used everywhere else in this layout -- guarantees a fully touching,
+    // gap-free cluster by construction, at the cost of an independent's
+    // exact spot inside the cluster (not its cluster membership, color, or
+    // overall on-screen neighborhood) being free to shift slightly year to
+    // year as the active set changes.
+    const anchor = layout.independentClusterHome || { x: CANVAS_WIDTH / 2, y: CANVAS_HEIGHT / 2 };
+    const padded = standaloneRows.map(row => ({ row, r: layout.rScale(row.title_count) }));
+    padded.sort((a, b) => b.r - a.r);
+    d3.packSiblings(padded);
+    const enclosing = d3.packEnclose(padded);
+    let clusterReach = 0;
+    const relativeSub = padded.map(c => {
+      const dx = c.x - enclosing.x;
+      const dy = c.y - enclosing.y;
+      clusterReach = Math.max(clusterReach, Math.hypot(dx, dy) + c.r);
+      return { row: c.row, r: c.r, dx, dy };
+    });
+    macroEntries.push({ kind: 'independentCluster', relativeSub, r: clusterReach + layout.ringPadding, home: anchor });
+  }
+
   const resolved = resolveMacroLayout(macroEntries);
   const parentNodes = [];
   const allLeaves = [];
 
   resolved.forEach(node => {
-    if (node.kind === 'standalone') {
-      const row = node.row;
-      allLeaves.push({
-        x: node.x,
-        y: node.y,
-        r: node.r,
-        data: {
-          id: row.distributor_id,
-          name: row.distributor_label,
-          value: row.title_count,
-          type: 'distributor',
-          isStandalone: true,
-          isBranded: isBrandedDistributor(row.distributor_id),
-          year: row.year,
-          color: leafColor(row.distributor_id, getStandaloneColor(row.distributor_id))
-        }
+    if (node.kind === 'independentCluster') {
+      node.relativeSub.forEach(sub => {
+        const row = sub.row;
+        allLeaves.push({
+          x: node.x + sub.dx,
+          y: node.y + sub.dy,
+          r: sub.r,
+          data: {
+            id: row.distributor_id,
+            name: row.distributor_label,
+            value: row.title_count,
+            type: 'distributor',
+            isStandalone: true,
+            isBranded: isBrandedDistributor(row.distributor_id),
+            year: row.year,
+            color: leafColor(row.distributor_id, getStandaloneColor(row.distributor_id))
+          }
+        });
       });
       return;
     }
