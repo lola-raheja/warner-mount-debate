@@ -663,7 +663,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2023,,,viva_pictures,Viva Pictures,2
 2023,disney,Disney,walt_disney_studios,Disney,10
 2023,warner_bros_discovery,Warner Bros. Discovery,warner_bros_pictures,Warner Bros.,12
-2023,yash_raj_films_parent,Yash Raj Films,yash_raj_films,Yash Raj Films,3
+2023,,,yash_raj_films,Yash Raj Films,3
 2023,,,zee_studios,Zee Studios,1
 2024,disney,Disney,twentieth_century,20th Century Studios,3
 2024,,,a24,A24,7
@@ -711,7 +711,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2024,disney,Disney,walt_disney_studios,Disney,6
 2024,warner_bros_discovery,Warner Bros. Discovery,warner_bros_pictures,Warner Bros.,11
 2024,,,well_go_usa,Well Go USA,2
-2024,yash_raj_films_parent,Yash Raj Films,yash_raj_films,Yash Raj Films,1
+2024,,,yash_raj_films,Yash Raj Films,1
 2025,disney,Disney,twentieth_century,20th Century Studios,5
 2025,,,a24,A24,9
 2025,amazon,Amazon,mgm,Amazon MGM Studios,5
@@ -752,4 +752,4 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2025,,,viva_pictures,Viva Pictures,2
 2025,disney,Disney,walt_disney_studios,Disney,11
 2025,warner_bros_discovery,Warner Bros. Discovery,warner_bros_pictures,Warner Bros.,12
-2025,yash_raj_films_parent,Yash Raj Films,yash_raj_films,Yash Raj Films,2
+2025,,,yash_raj_films,Yash Raj Films,2

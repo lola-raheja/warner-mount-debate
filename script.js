@@ -75,9 +75,12 @@ const distributorBrandColors = new Map([
   ['netflix', '#E50914'], // Netflix red
   ['crunchyroll', '#F97300'], // Crunchyroll orange
   ['mubi', '#2A5CFF'], // MUBI blue
-  ['a24', '#050505'] // near-black -- the logo's own aqua/yellow/orange glitch
+  ['a24', '#050505'], // near-black -- the logo's own aqua/yellow/orange glitch
   // border (see the a24BorderGradient <defs> in initChart and the
   // .is-a24 CSS rule) is what actually identifies this bubble
+  ['neon', '#FF2D8C'] // Neon's sign is glowing red, but that hue is already
+  // taken by Netflix -- shifted toward hot pink/magenta so the two stay
+  // visually distinct while keeping the same vivid, glowing quality
 ]);
 
 function parentColor(parentId) {
