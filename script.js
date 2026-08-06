@@ -119,14 +119,17 @@ function wrapLabel(name, maxChars = 14) {
   return lines.slice(0, 2);
 }
 
-// These four majors should always be identifiable at a glance regardless of
-// how small their bubble gets in a given year, so their label bypasses the
+// These majors should always be identifiable at a glance regardless of how
+// small their bubble gets in a given year, so their label bypasses the
 // usual "only if the bubble is big enough to hold it legibly" rule.
 const ALWAYS_LABELED_DISTRIBUTORS = new Set([
   'universal_pictures',
   'warner_bros_pictures',
   'paramount_pictures',
-  'walt_disney_studios'
+  'walt_disney_studios',
+  'mgm',
+  'lionsgate_films',
+  'sony_pictures'
 ]);
 
 function appendChildLabel(node, d) {
