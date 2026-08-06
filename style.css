@@ -222,6 +222,21 @@ svg {
   stroke-width: 2;
 }
 
+/* A24's logo has a subtle aqua/yellow/orange chromatic-split border on
+   black -- recreated here as a gradient stroke (defined in the SVG's
+   <defs>, see initChart in script.js) instead of the usual flat edge. */
+.child-node.is-a24 circle {
+  stroke: url(#a24BorderGradient);
+  stroke-width: 3;
+}
+
+.child-node.is-a24:hover circle,
+.child-node.is-a24.is-active circle,
+.child-node.is-a24:focus circle {
+  stroke: url(#a24BorderGradient);
+  stroke-width: 4;
+}
+
 .child-label {
   fill: var(--label-fill);
   text-anchor: middle;

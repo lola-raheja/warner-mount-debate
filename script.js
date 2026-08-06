@@ -74,7 +74,10 @@ const distributorBrandColors = new Map([
   ['lionsgate_films', '#FA562E'], // Lionsgate+ rebrand orange
   ['netflix', '#E50914'], // Netflix red
   ['crunchyroll', '#F97300'], // Crunchyroll orange
-  ['mubi', '#2A5CFF'] // MUBI blue
+  ['mubi', '#2A5CFF'], // MUBI blue
+  ['a24', '#050505'] // near-black -- the logo's own aqua/yellow/orange glitch
+  // border (see the a24BorderGradient <defs> in initChart and the
+  // .is-a24 CSS rule) is what actually identifies this bubble
 ]);
 
 function parentColor(parentId) {
@@ -478,6 +481,23 @@ function initChart() {
     .attr('viewBox', `0 0 ${CANVAS_WIDTH} ${CANVAS_HEIGHT}`)
     .attr('aria-hidden', 'true');
 
+  // A24's own logo uses a subtle aqua/yellow/orange chromatic-split border
+  // on black -- this gradient recreates that as the A24 bubble's stroke
+  // (see .is-a24 in style.css) instead of the usual flat edge color.
+  svg.append('defs').append('linearGradient')
+    .attr('id', 'a24BorderGradient')
+    .attr('x1', '0%').attr('y1', '0%')
+    .attr('x2', '100%').attr('y2', '100%')
+    .selectAll('stop')
+    .data([
+      { offset: '0%', color: '#5FE8E4' },
+      { offset: '50%', color: '#F5E27A' },
+      { offset: '100%', color: '#F2994A' }
+    ])
+    .join('stop')
+    .attr('offset', d => d.offset)
+    .attr('stop-color', d => d.color);
+
   parentGroup = svg.append('g').attr('class', 'parents');
   childGroup = svg.append('g').attr('class', 'children');
   // Parent-company labels live in their own top-most layer so distributor
@@ -543,7 +563,7 @@ function update(year) {
     );
 
   // --- Distributor / standalone circles ---
-  const childNodeClass = d => `child-node${d.data.isStandalone ? ' is-standalone' : ''}${d.data.isBranded ? ' is-branded' : ''}`;
+  const childNodeClass = d => `child-node${d.data.isStandalone ? ' is-standalone' : ''}${d.data.isBranded ? ' is-branded' : ''}${d.data.id === 'a24' ? ' is-a24' : ''}`;
 
   const nodes = childGroup.selectAll('g.child-node')
     .data(allLeaves, d => d.data.id)
