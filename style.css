@@ -1,18 +1,42 @@
 :root {
   --bg: #0d1117;
+  --bg-gradient-start: #182131;
   --surface: rgba(22, 27, 34, 0.88);
   --border: rgba(255,255,255,0.1);
   --text: #f3f5f7;
   --muted: #9da7b3;
   --accent: #6ea8fe;
+  --accent-contrast: #0b1220;
+  --accent-hover: #86b8ff;
   --shadow: 0 20px 60px rgba(0,0,0,0.35);
+
+  --btn-bg: rgba(255, 255, 255, 0.06);
+  --btn-bg-hover: rgba(255, 255, 255, 0.12);
+  --btn-border-hover: rgba(255, 255, 255, 0.24);
+
+  --parent-ring-stroke: rgba(255,255,255,0.28);
+  --child-edge-stroke: rgba(255, 255, 255, 0.16);
+  --child-edge-stroke-active: rgba(255, 255, 255, 0.55);
+
+  /* Label text sits on top of arbitrary bubble colors, so it needs a halo
+     of the *opposite* tone from the text itself to stay legible no matter
+     what's underneath -- not a page-background color. */
+  --label-fill: #ffffff;
+  --label-halo: rgba(6, 9, 14, 0.85);
+  --label-count-fill: rgba(255,255,255,0.85);
+
+  --tooltip-bg: rgba(12, 17, 24, 0.94);
+  --tooltip-text: #ffffff;
+  --tooltip-muted: rgba(255,255,255,0.82);
+  --tooltip-border: rgba(255,255,255,0.12);
+  --tooltip-parent: #a5b4fc;
 }
 
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body {
   font-family: 'Inter', sans-serif;
-  background: radial-gradient(circle at top, #182131 0%, var(--bg) 45%);
+  background: radial-gradient(circle at top, var(--bg-gradient-start) 0%, var(--bg) 45%);
   color: var(--text);
 }
 
@@ -56,6 +80,7 @@ h1 {
   border: 1px solid var(--border);
   border-radius: 24px;
   box-shadow: var(--shadow);
+  transition: background 200ms ease, border-color 200ms ease;
 }
 
 .year-card {
@@ -88,7 +113,7 @@ h1 {
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text);
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--btn-bg);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 8px 10px;
@@ -97,8 +122,8 @@ h1 {
 }
 
 .control-btn:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.24);
+  background: var(--btn-bg-hover);
+  border-color: var(--btn-border-hover);
 }
 
 .control-btn:active:not(:disabled) {
@@ -113,12 +138,12 @@ h1 {
 .control-btn-primary {
   background: var(--accent);
   border-color: var(--accent);
-  color: #0b1220;
+  color: var(--accent-contrast);
 }
 
 .control-btn-primary:hover:not(:disabled) {
-  background: #86b8ff;
-  border-color: #86b8ff;
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
 }
 
 .chart-shell {
@@ -151,7 +176,7 @@ svg {
 
 .parent-node circle {
   fill-opacity: 0.14;
-  stroke: rgba(255,255,255,0.28);
+  stroke: var(--parent-ring-stroke);
   stroke-width: 1.5;
 }
 
@@ -160,7 +185,7 @@ svg {
 }
 
 .parent-label {
-  fill: #ffffff;
+  fill: var(--label-fill);
   text-anchor: middle;
   font-size: 13px;
   font-weight: 800;
@@ -168,14 +193,18 @@ svg {
   text-transform: uppercase;
   letter-spacing: 0.06em;
   paint-order: stroke fill;
-  stroke: rgba(6, 9, 14, 0.85);
+  stroke: var(--label-halo);
   stroke-width: 4px;
   stroke-linejoin: round;
 }
 
 .child-node circle {
   fill-opacity: 0.92;
-  stroke: none;
+  /* Faint edge, not a bold border -- since bubbles border each other
+     directly, this is what keeps two similarly-colored neighbors from
+     visually fusing into one shape at their shared edge. */
+  stroke: var(--child-edge-stroke);
+  stroke-width: 1;
   transition: transform 180ms ease, fill-opacity 180ms ease, stroke-width 180ms ease;
 }
 
@@ -189,29 +218,36 @@ svg {
 .child-node.is-active circle,
 .child-node:focus circle {
   fill-opacity: 1;
-  stroke: rgba(255, 255, 255, 0.55);
+  stroke: var(--child-edge-stroke-active);
   stroke-width: 2;
 }
 
 .child-label {
-  fill: white;
+  fill: var(--label-fill);
   text-anchor: middle;
   font-weight: 700;
   pointer-events: none;
+  /* Same halo trick as the parent labels, sized down to match the smaller
+     text here -- guarantees legibility regardless of which of the now
+     much more varied bubble colors sits underneath. */
+  paint-order: stroke fill;
+  stroke: var(--label-halo);
+  stroke-width: 2.5px;
+  stroke-linejoin: round;
 }
 
 .child-label .count {
   font-weight: 500;
-  fill: rgba(255,255,255,0.8);
+  fill: var(--label-count-fill);
 }
 
 .tooltip {
   position: absolute;
   inset: auto auto 16px 16px;
   max-width: 260px;
-  background: rgba(12, 17, 24, 0.94);
-  color: white;
-  border: 1px solid rgba(255,255,255,0.12);
+  background: var(--tooltip-bg);
+  color: var(--tooltip-text);
+  border: 1px solid var(--tooltip-border);
   border-radius: 16px;
   padding: 14px 16px;
   box-shadow: var(--shadow);
@@ -226,13 +262,13 @@ svg {
 
 .tooltip span {
   display: block;
-  color: rgba(255,255,255,0.82);
+  color: var(--tooltip-muted);
   line-height: 1.45;
 }
 
 .tooltip-parent {
   margin-top: 6px;
-  color: #a5b4fc;
+  color: var(--tooltip-parent);
 }
 
 .legend {
