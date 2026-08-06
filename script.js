@@ -71,7 +71,7 @@ const distributorBrandColors = new Map([
   ['sony_pictures', '#00A8E1'], // Sony cyan
   ['walt_disney_studios', '#5B3A8E'], // Disney indigo-purple
   ['mgm', '#C9A227'], // MGM lion gold
-  ['lionsgate_films', '#E8442C'], // Lionsgate red-orange
+  ['lionsgate_films', '#FA562E'], // Lionsgate+ rebrand orange
   ['netflix', '#E50914'], // Netflix red
   ['crunchyroll', '#F97300'], // Crunchyroll orange
   ['mubi', '#2A5CFF'] // MUBI blue
@@ -119,8 +119,18 @@ function wrapLabel(name, maxChars = 14) {
   return lines.slice(0, 2);
 }
 
+// These four majors should always be identifiable at a glance regardless of
+// how small their bubble gets in a given year, so their label bypasses the
+// usual "only if the bubble is big enough to hold it legibly" rule.
+const ALWAYS_LABELED_DISTRIBUTORS = new Set([
+  'universal_pictures',
+  'warner_bros_pictures',
+  'paramount_pictures',
+  'walt_disney_studios'
+]);
+
 function appendChildLabel(node, d) {
-  const showLabel = d.r > 25;
+  const showLabel = d.r > 25 || ALWAYS_LABELED_DISTRIBUTORS.has(d.data.id);
   if (!showLabel) return;
   const lines = wrapLabel(d.data.name, d.r > 52 ? 16 : 12);
   const label = d3.select(node).append('text').attr('class', 'child-label');
