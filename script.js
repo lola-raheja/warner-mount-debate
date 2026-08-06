@@ -5,31 +5,42 @@ const totalValue = document.getElementById('totalValue');
 const playButton = document.getElementById('playButton');
 const prevButton = document.getElementById('prevButton');
 const nextButton = document.getElementById('nextButton');
-const themeToggle = document.getElementById('themeToggle');
-
-themeToggle.addEventListener('click', () => {
-  const isLight = document.documentElement.dataset.theme === 'light';
-  if (isLight) {
-    delete document.documentElement.dataset.theme;
-  } else {
-    document.documentElement.dataset.theme = 'light';
-  }
-  themeToggle.textContent = isLight ? 'Cream theme' : 'Dark theme';
-  themeToggle.setAttribute('aria-pressed', String(!isLight));
-});
 
 const TRANSITION_DURATION = 1200;
 const EXIT_DURATION = 600;
 
 // Fixed, resolution-independent coordinate space. The SVG scales to its
 // container purely via CSS (viewBox + width:100%), so this never changes
-// on resize -- which is what lets every bubble's position stay put.
-// Square, not the previous 1200x760: the packed mosaic is roughly
-// circular, and fitting a circle to a wide rectangle only uses the
-// shorter dimension -- a square canvas lets both dimensions contribute,
-// which is most of what "the bubbles look small" actually was.
-const CANVAS_WIDTH = 1000;
-const CANVAS_HEIGHT = 1000;
+// on resize -- which is what lets every bubble's position stay put. Set
+// once at load (see pickCanvasSize below) based on the device's own
+// viewport, then left alone -- recomputing on every resize would fight
+// the whole point of fixed positions.
+let CANVAS_WIDTH = 1000;
+let CANVAS_HEIGHT = 1000;
+const MOBILE_BREAKPOINT = 780; // matches the CSS breakpoint in style.css
+
+// The packed mosaic is circular, so its size is always bounded by
+// whichever canvas dimension is smaller -- BASE_SIZE keeps that dimension
+// fixed at the value already tuned for bubble legibility, regardless of
+// device. The other dimension extends to give the canvas a device-
+// appropriate rectangular frame (landscape on wide viewports, portrait on
+// narrow ones) with the circular cluster centered in it, rather than
+// distorting the packing itself into an ellipse. Because a circle can only
+// ever fill the SHORTER side of a rectangle, the extension ratio is capped
+// fairly tightly (1.3x) -- real device aspect ratios go much wider/taller
+// than that, but following them exactly would surround the mosaic with
+// large empty bands, reopening the "wasted space" problem already fixed
+// once for the square canvas.
+function pickCanvasSize() {
+  const BASE_SIZE = 1000;
+  const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+  if (window.innerWidth < MOBILE_BREAKPOINT) {
+    const ratio = clamp(window.innerHeight / window.innerWidth, 1.05, 1.3);
+    return { width: BASE_SIZE, height: Math.round(BASE_SIZE * ratio) };
+  }
+  const ratio = clamp(window.innerWidth / window.innerHeight, 1.05, 1.3);
+  return { width: Math.round(BASE_SIZE * ratio), height: BASE_SIZE };
+}
 const MAX_LEAF_RADIUS = 95;
 const PARENT_TOP_PADDING = 12;
 const PARENT_RING_PADDING = 16;
@@ -570,6 +581,10 @@ d3.csv('distributor_title_counts.csv', d => ({
     prevButton.disabled = true;
     nextButton.disabled = true;
   }
+
+  const size = pickCanvasSize();
+  CANVAS_WIDTH = size.width;
+  CANVAS_HEIGHT = size.height;
 
   layout = computeFixedLayout(allRows);
   initChart();
