@@ -127,9 +127,13 @@ const ALWAYS_LABELED_DISTRIBUTORS = new Set([
 ]);
 
 function appendChildLabel(node, d) {
-  const showLabel = d.r > 25 || ALWAYS_LABELED_DISTRIBUTORS.has(d.data.id);
+  // Thresholds scaled up alongside the bigger post-calibration bubble
+  // sizes (see the busiest-year fit calibration in computeFixedLayout) --
+  // without this, far more small independents would cross the old,
+  // now-too-low cutoff and crowd the packed cluster with overlapping text.
+  const showLabel = d.r > 46 || ALWAYS_LABELED_DISTRIBUTORS.has(d.data.id);
   if (!showLabel) return;
-  const lines = wrapLabel(d.data.name, d.r > 52 ? 16 : 12);
+  const lines = wrapLabel(d.data.name, d.r > 69 ? 16 : 12);
   const label = d3.select(node).append('text').attr('class', 'child-label');
 
   lines.forEach((line, index) => {
@@ -139,6 +143,11 @@ function appendChildLabel(node, d) {
       .style('font-size', `${Math.max(10, Math.min(17, d.r / 3.4))}px`)
       .text(line);
   });
+
+  // The release count is secondary to the name and costs another line of
+  // vertical space a smaller, still-labeled bubble often can't spare
+  // without the text spilling past its own edge into a touching neighbor.
+  if (d.r <= 46) return;
 
   label.append('tspan')
     .attr('class', 'count')
@@ -266,7 +275,72 @@ function computeFixedLayout(allRows) {
 
   d3.packSiblings(masterCircles);
   const masterEnclosing = d3.packEnclose(masterCircles);
-  const fitScale = (Math.min(CANVAS_WIDTH, CANVAS_HEIGHT) / (2 * masterEnclosing.r)) * 0.985;
+
+  // masterEnclosing.r is the footprint of ALL 22 parents-ever plus the
+  // independent cluster coexisting at once -- a state that never actually
+  // happens (even the busiest real year only has ~11 parents active).
+  // Fitting the canvas to that theoretical union systematically undersizes
+  // every real year's mosaic (bubbles smaller than they need to be, and a
+  // ring of dead space around the whole thing), even in the busiest year.
+  // Find the real busiest year instead, by literally running the same
+  // resolveMacroLayout blend-and-collide resolution used at render time
+  // (not a plain tight pack, which produces a different, unrepresentative
+  // footprint than what actually gets drawn) against every year's real
+  // roster, on these not-yet-scaled home positions -- then calibrate the
+  // fit to whichever year needs the most room, so that year fills the
+  // canvas and every sparser year, being uniformly the same scale, is
+  // exactly as large as its own real content warrants.
+  const rawParentHome = new Map();
+  let rawIndependentClusterHome = null;
+  masterCircles.forEach(c => {
+    if (c.isIndependentCluster) rawIndependentClusterHome = { x: c.x, y: c.y };
+    else rawParentHome.set(c.id, { x: c.x, y: c.y });
+  });
+
+  let maxRenderedRadius = 0;
+  d3.group(allRows, r => r.year).forEach(yearRows => {
+    const macroEntries = [];
+    d3.group(yearRows.filter(r => r.parent_id), r => r.parent_id).forEach(groupRows => {
+      const parentId = groupRows[0].parent_id;
+      const home = rawParentHome.get(parentId);
+      if (!home) return;
+      const offsets = childOffset.get(parentId) || new Map();
+      let maxReach = 0;
+      groupRows.forEach(row => {
+        const offset = offsets.get(row.distributor_id) || { dx: 0, dy: 0 };
+        maxReach = Math.max(maxReach, Math.hypot(offset.dx, offset.dy) + rScale0(row.title_count));
+      });
+      macroEntries.push({ kind: 'parent', r: maxReach + PARENT_RING_PADDING, home });
+    });
+    // Mirrors computeYearNodes' independent-cluster handling exactly: a
+    // fresh tight pack of THIS YEAR's active independents, not the old
+    // all-time-offset estimate (which is looser, by design -- it's what
+    // used to leave gaps before the cluster was switched to a fresh pack
+    // per year). Using the looser estimate here would overstate how much
+    // room the cluster really needs and made the whole calibration too
+    // conservative.
+    const yearStandaloneRows = yearRows.filter(r => !r.parent_id);
+    if (yearStandaloneRows.length && rawIndependentClusterHome) {
+      const padded = yearStandaloneRows.map(row => ({ r: rScale0(row.title_count) }));
+      padded.sort((a, b) => b.r - a.r);
+      d3.packSiblings(padded);
+      const enclosing = d3.packEnclose(padded);
+      let clusterReach = 0;
+      padded.forEach(c => {
+        clusterReach = Math.max(clusterReach, Math.hypot(c.x - enclosing.x, c.y - enclosing.y) + c.r);
+      });
+      macroEntries.push({ kind: 'independentCluster', r: clusterReach + PARENT_RING_PADDING, home: rawIndependentClusterHome });
+    }
+    if (macroEntries.length === 0) return;
+    const resolved = resolveMacroLayout(macroEntries);
+    const minX = Math.min(...resolved.map(n => n.x - n.r));
+    const maxX = Math.max(...resolved.map(n => n.x + n.r));
+    const minY = Math.min(...resolved.map(n => n.y - n.r));
+    const maxY = Math.max(...resolved.map(n => n.y + n.r));
+    maxRenderedRadius = Math.max(maxRenderedRadius, (maxX - minX) / 2, (maxY - minY) / 2);
+  });
+
+  const fitScale = (Math.min(CANVAS_WIDTH, CANVAS_HEIGHT) / (2 * maxRenderedRadius)) * 0.985;
   const translateX = CANVAS_WIDTH / 2 - masterEnclosing.x * fitScale;
   const translateY = CANVAS_HEIGHT / 2 - masterEnclosing.y * fitScale;
 
