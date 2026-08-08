@@ -187,8 +187,9 @@ svg {
 .parent-label {
   fill: var(--label-fill);
   text-anchor: middle;
+  font-family: 'Archivo', sans-serif;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 600;
   pointer-events: none;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -283,7 +284,8 @@ svg {
 .child-label {
   fill: var(--label-fill);
   text-anchor: middle;
-  font-weight: 700;
+  font-family: 'Archivo', sans-serif;
+  font-weight: 600;
   pointer-events: none;
   /* Same halo trick as the parent labels, sized down to match the smaller
      text here -- guarantees legibility regardless of which of the now
