@@ -6,8 +6,11 @@ const playButton = document.getElementById('playButton');
 const prevButton = document.getElementById('prevButton');
 const nextButton = document.getElementById('nextButton');
 
-const TRANSITION_DURATION = 1200;
+const TRANSITION_DURATION = 800;
 const EXIT_DURATION = 600;
+// 35 year-to-year steps (1990-2025) at this interval land the full
+// playthrough around 45s (35 * 1280ms = 44.8s), down from ~69s.
+const PLAY_STEP_PAUSE = 480;
 
 // Fixed, resolution-independent coordinate space. The SVG scales to its
 // container purely via CSS (viewBox + width:100%), so this never changes
@@ -15,31 +18,16 @@ const EXIT_DURATION = 600;
 // once at load (see pickCanvasSize below) based on the device's own
 // viewport, then left alone -- recomputing on every resize would fight
 // the whole point of fixed positions.
-let CANVAS_WIDTH = 1000;
-let CANVAS_HEIGHT = 1000;
-const MOBILE_BREAKPOINT = 780; // matches the CSS breakpoint in style.css
+let CANVAS_WIDTH = 1080;
+let CANVAS_HEIGHT = 1350;
 
-// The packed mosaic is circular, so its size is always bounded by
-// whichever canvas dimension is smaller -- BASE_SIZE keeps that dimension
-// fixed at the value already tuned for bubble legibility, regardless of
-// device. The other dimension extends to give the canvas a device-
-// appropriate rectangular frame (landscape on wide viewports, portrait on
-// narrow ones) with the circular cluster centered in it, rather than
-// distorting the packing itself into an ellipse. Because a circle can only
-// ever fill the SHORTER side of a rectangle, the extension ratio is capped
-// fairly tightly (1.3x) -- real device aspect ratios go much wider/taller
-// than that, but following them exactly would surround the mosaic with
-// large empty bands, reopening the "wasted space" problem already fixed
-// once for the square canvas.
+// Fixed at LinkedIn's recommended portrait post size (1080x1350, a 4:5
+// ratio) instead of adapting per device -- the primary deliverable is a
+// screen-recorded LinkedIn/Substack post, so the graphic itself should
+// always be that exact shape rather than going landscape on a wide
+// desktop viewport.
 function pickCanvasSize() {
-  const BASE_SIZE = 1000;
-  const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-  if (window.innerWidth < MOBILE_BREAKPOINT) {
-    const ratio = clamp(window.innerHeight / window.innerWidth, 1.05, 1.3);
-    return { width: BASE_SIZE, height: Math.round(BASE_SIZE * ratio) };
-  }
-  const ratio = clamp(window.innerWidth / window.innerHeight, 1.05, 1.3);
-  return { width: Math.round(BASE_SIZE * ratio), height: BASE_SIZE };
+  return { width: 1080, height: 1350 };
 }
 const MAX_LEAF_RADIUS = 130;
 const PARENT_TOP_PADDING = 12;
@@ -87,17 +75,19 @@ function parentColor(parentId) {
   return parentPalette.get(parentId) || '#6ea8fe';
 }
 
-// Muted color for the many one-off independent distributors that don't
-// have a real brand color -- deliberately soft so they recede next to the
-// studios that do, but spread continuously across the hue wheel (rather
+// Color for the many one-off independent distributors that don't have a
+// real brand color -- spreads continuously across the hue wheel (rather
 // than picked from a handful of fixed swatches) so that with ~150 of them,
 // neighbors don't keep landing on the same few colors. Saturation and
-// lightness stay fixed so the "soft, receding" quality is consistent.
+// lightness stay fixed so the palette reads as one consistent family, but
+// pushed a good deal richer than the original 38%/58% -- at that level the
+// independents all looked washed-out and a little "blah" next to the
+// punchier branded studio colors.
 function getStandaloneColor(id) {
   let hash = 0;
   for (let i = 0; i < id.length; i += 1) hash = (hash * 31 + id.charCodeAt(i)) | 0;
   const hue = Math.abs(hash) % 360;
-  return `hsl(${hue}, 38%, 58%)`;
+  return `hsl(${hue}, 62%, 54%)`;
 }
 
 function leafColor(distributorId, fallback) {
@@ -135,13 +125,21 @@ const ALWAYS_LABELED_DISTRIBUTORS = new Set([
   'walt_disney_studios',
   'mgm',
   'lionsgate_films',
-  'sony_pictures'
+  'sony_pictures',
+  'mubi',
+  'crunchyroll',
+  'neon',
+  'a24'
 ]);
 
 function appendChildLabel(node, d) {
-  const showLabel = d.r > 25 || ALWAYS_LABELED_DISTRIBUTORS.has(d.data.id);
+  // Thresholds scaled up alongside the bigger post-calibration bubble
+  // sizes (see the busiest-year fit calibration in computeFixedLayout) --
+  // without this, far more small independents would cross the old,
+  // now-too-low cutoff and crowd the packed cluster with overlapping text.
+  const showLabel = d.r > 46 || ALWAYS_LABELED_DISTRIBUTORS.has(d.data.id);
   if (!showLabel) return;
-  const lines = wrapLabel(d.data.name, d.r > 52 ? 16 : 12);
+  const lines = wrapLabel(d.data.name, d.r > 69 ? 16 : 12);
   const label = d3.select(node).append('text').attr('class', 'child-label');
 
   lines.forEach((line, index) => {
@@ -151,6 +149,11 @@ function appendChildLabel(node, d) {
       .style('font-size', `${Math.max(10, Math.min(17, d.r / 3.4))}px`)
       .text(line);
   });
+
+  // The release count is secondary to the name and costs another line of
+  // vertical space a smaller, still-labeled bubble often can't spare
+  // without the text spilling past its own edge into a touching neighbor.
+  if (d.r <= 46) return;
 
   label.append('tspan')
     .attr('class', 'count')
@@ -278,7 +281,72 @@ function computeFixedLayout(allRows) {
 
   d3.packSiblings(masterCircles);
   const masterEnclosing = d3.packEnclose(masterCircles);
-  const fitScale = (Math.min(CANVAS_WIDTH, CANVAS_HEIGHT) / (2 * masterEnclosing.r)) * 0.985;
+
+  // masterEnclosing.r is the footprint of ALL 22 parents-ever plus the
+  // independent cluster coexisting at once -- a state that never actually
+  // happens (even the busiest real year only has ~11 parents active).
+  // Fitting the canvas to that theoretical union systematically undersizes
+  // every real year's mosaic (bubbles smaller than they need to be, and a
+  // ring of dead space around the whole thing), even in the busiest year.
+  // Find the real busiest year instead, by literally running the same
+  // resolveMacroLayout blend-and-collide resolution used at render time
+  // (not a plain tight pack, which produces a different, unrepresentative
+  // footprint than what actually gets drawn) against every year's real
+  // roster, on these not-yet-scaled home positions -- then calibrate the
+  // fit to whichever year needs the most room, so that year fills the
+  // canvas and every sparser year, being uniformly the same scale, is
+  // exactly as large as its own real content warrants.
+  const rawParentHome = new Map();
+  let rawIndependentClusterHome = null;
+  masterCircles.forEach(c => {
+    if (c.isIndependentCluster) rawIndependentClusterHome = { x: c.x, y: c.y };
+    else rawParentHome.set(c.id, { x: c.x, y: c.y });
+  });
+
+  let maxRenderedRadius = 0;
+  d3.group(allRows, r => r.year).forEach(yearRows => {
+    const macroEntries = [];
+    d3.group(yearRows.filter(r => r.parent_id), r => r.parent_id).forEach(groupRows => {
+      const parentId = groupRows[0].parent_id;
+      const home = rawParentHome.get(parentId);
+      if (!home) return;
+      const offsets = childOffset.get(parentId) || new Map();
+      let maxReach = 0;
+      groupRows.forEach(row => {
+        const offset = offsets.get(row.distributor_id) || { dx: 0, dy: 0 };
+        maxReach = Math.max(maxReach, Math.hypot(offset.dx, offset.dy) + rScale0(row.title_count));
+      });
+      macroEntries.push({ kind: 'parent', r: maxReach + PARENT_RING_PADDING, home });
+    });
+    // Mirrors computeYearNodes' independent-cluster handling exactly: a
+    // fresh tight pack of THIS YEAR's active independents, not the old
+    // all-time-offset estimate (which is looser, by design -- it's what
+    // used to leave gaps before the cluster was switched to a fresh pack
+    // per year). Using the looser estimate here would overstate how much
+    // room the cluster really needs and made the whole calibration too
+    // conservative.
+    const yearStandaloneRows = yearRows.filter(r => !r.parent_id);
+    if (yearStandaloneRows.length && rawIndependentClusterHome) {
+      const padded = yearStandaloneRows.map(row => ({ r: rScale0(row.title_count) }));
+      padded.sort((a, b) => b.r - a.r);
+      d3.packSiblings(padded);
+      const enclosing = d3.packEnclose(padded);
+      let clusterReach = 0;
+      padded.forEach(c => {
+        clusterReach = Math.max(clusterReach, Math.hypot(c.x - enclosing.x, c.y - enclosing.y) + c.r);
+      });
+      macroEntries.push({ kind: 'independentCluster', r: clusterReach + PARENT_RING_PADDING, home: rawIndependentClusterHome });
+    }
+    if (macroEntries.length === 0) return;
+    const resolved = resolveMacroLayout(macroEntries);
+    const minX = Math.min(...resolved.map(n => n.x - n.r));
+    const maxX = Math.max(...resolved.map(n => n.x + n.r));
+    const minY = Math.min(...resolved.map(n => n.y - n.r));
+    const maxY = Math.max(...resolved.map(n => n.y + n.r));
+    maxRenderedRadius = Math.max(maxRenderedRadius, (maxX - minX) / 2, (maxY - minY) / 2);
+  });
+
+  const fitScale = (Math.min(CANVAS_WIDTH, CANVAS_HEIGHT) / (2 * maxRenderedRadius)) * 0.985;
   const translateX = CANVAS_WIDTH / 2 - masterEnclosing.x * fitScale;
   const translateY = CANVAS_HEIGHT / 2 - masterEnclosing.y * fitScale;
 
@@ -408,6 +476,26 @@ function computeYearNodes(rows, layout) {
   }
 
   const resolved = resolveMacroLayout(macroEntries);
+
+  // The centroid blend above pulls active entities toward each other, but
+  // that centroid is just the average of whichever subset happens to be
+  // active -- not necessarily the canvas center, especially in a sparse
+  // year where a handful of parents' historical homes can sit off to one
+  // side of the full 23-parent layout. Recentering the whole resolved
+  // group by its own bounding box (a rigid shift, so it doesn't disturb
+  // anything's position relative to its neighbors) keeps the mosaic
+  // framed with even margins every year instead of drifting toward one
+  // edge and leaving dead space at the other.
+  if (resolved.length) {
+    const minX = Math.min(...resolved.map(n => n.x - n.r));
+    const maxX = Math.max(...resolved.map(n => n.x + n.r));
+    const minY = Math.min(...resolved.map(n => n.y - n.r));
+    const maxY = Math.max(...resolved.map(n => n.y + n.r));
+    const shiftX = CANVAS_WIDTH / 2 - (minX + maxX) / 2;
+    const shiftY = CANVAS_HEIGHT / 2 - (minY + maxY) / 2;
+    resolved.forEach(n => { n.x += shiftX; n.y += shiftY; });
+  }
+
   const parentNodes = [];
   const allLeaves = [];
 
@@ -470,7 +558,7 @@ function computeYearNodes(rows, layout) {
   return { parentNodes, allLeaves };
 }
 
-let svg, parentGroup, childGroup, labelGroup;
+let svg, parentGroup, childGroup, labelGroup, yearTicker;
 let allRows = [];
 let years = [];
 let layout = null;
@@ -506,6 +594,15 @@ function initChart() {
   // Parent-company labels live in their own top-most layer so distributor
   // bubbles packed inside a parent circle can never paint over the name.
   labelGroup = svg.append('g').attr('class', 'parent-labels');
+
+  // Baked into the graphic itself (not just the page chrome around it) so
+  // the year and running total are still visible however this gets
+  // cropped for a LinkedIn/Substack recording.
+  yearTicker = svg.append('g').attr('class', 'year-ticker');
+  yearTicker.append('text').attr('class', 'year-ticker-label').attr('x', 40).attr('y', 58).text('Year');
+  yearTicker.append('text').attr('class', 'year-ticker-value').attr('x', 40).attr('y', 108);
+  yearTicker.append('text').attr('class', 'year-ticker-label').attr('x', 40).attr('y', 168).text('Total Wide-Release Movies');
+  yearTicker.append('text').attr('class', 'year-ticker-total-value').attr('x', 40).attr('y', 212);
 }
 
 function update(year) {
@@ -514,6 +611,8 @@ function update(year) {
 
   yearValue.textContent = year;
   totalValue.textContent = totalTitles;
+  yearTicker.select('.year-ticker-value').text(year);
+  yearTicker.select('.year-ticker-total-value').text(totalTitles);
 
   const { parentNodes, allLeaves } = computeYearNodes(rows, layout);
 
@@ -644,7 +743,7 @@ function startPlayback() {
     }
     goToIndex(yearIndex + 1);
     if (yearIndex >= years.length - 1) stopPlayback();
-  }, TRANSITION_DURATION + 700);
+  }, TRANSITION_DURATION + PLAY_STEP_PAUSE);
 }
 
 playButton.addEventListener('click', () => {

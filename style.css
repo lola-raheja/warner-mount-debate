@@ -187,11 +187,53 @@ svg {
 .parent-label {
   fill: var(--label-fill);
   text-anchor: middle;
+  font-family: 'Archivo', sans-serif;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 600;
   pointer-events: none;
   text-transform: uppercase;
   letter-spacing: 0.06em;
+  paint-order: stroke fill;
+  stroke: var(--label-halo);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+/* Baked into the SVG itself, upper-left, so the year survives however this
+   gets cropped for a screen recording -- the page's own year-card sits
+   outside the chart and wouldn't be captured. */
+.year-ticker {
+  pointer-events: none;
+}
+
+.year-ticker-label {
+  fill: var(--muted);
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  paint-order: stroke fill;
+  stroke: var(--label-halo);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.year-ticker-value {
+  fill: var(--label-fill);
+  font-size: 48px;
+  font-weight: 800;
+  paint-order: stroke fill;
+  stroke: var(--label-halo);
+  stroke-width: 5px;
+  stroke-linejoin: round;
+}
+
+/* Secondary metric -- same treatment as the year value, just smaller, so
+   the year stays the visually dominant number in the ticker. */
+.year-ticker-total-value {
+  fill: var(--label-fill);
+  font-size: 36px;
+  font-weight: 800;
   paint-order: stroke fill;
   stroke: var(--label-halo);
   stroke-width: 4px;
@@ -208,10 +250,12 @@ svg {
   transition: transform 180ms ease, fill-opacity 180ms ease, stroke-width 180ms ease;
 }
 
-/* Independent (standalone, unbranded) distributors get a softer,
-   more translucent treatment so the branded studio bubbles stand out. */
+/* Independent (standalone, unbranded) distributors get a slightly softer
+   treatment than branded studio bubbles, but not so translucent it washes
+   the color out -- paired with the richer hue/saturation in
+   getStandaloneColor, this is what keeps them from reading as "blah". */
 .child-node.is-standalone:not(.is-branded) circle {
-  fill-opacity: 0.48;
+  fill-opacity: 0.72;
 }
 
 .child-node:hover circle,
@@ -222,25 +266,26 @@ svg {
   stroke-width: 2;
 }
 
-/* A24's logo has a subtle aqua/yellow/orange chromatic-split border on
+/* A24's logo has a razor-thin aqua/yellow/orange chromatic-split border on
    black -- recreated here as a gradient stroke (defined in the SVG's
    <defs>, see initChart in script.js) instead of the usual flat edge. */
 .child-node.is-a24 circle {
   stroke: url(#a24BorderGradient);
-  stroke-width: 3;
+  stroke-width: 1;
 }
 
 .child-node.is-a24:hover circle,
 .child-node.is-a24.is-active circle,
 .child-node.is-a24:focus circle {
   stroke: url(#a24BorderGradient);
-  stroke-width: 4;
+  stroke-width: 1.5;
 }
 
 .child-label {
   fill: var(--label-fill);
   text-anchor: middle;
-  font-weight: 700;
+  font-family: 'Archivo', sans-serif;
+  font-weight: 600;
   pointer-events: none;
   /* Same halo trick as the parent labels, sized down to match the smaller
      text here -- guarantees legibility regardless of which of the now
