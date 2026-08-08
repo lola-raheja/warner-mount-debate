@@ -75,6 +75,16 @@ function parentColor(parentId) {
   return parentPalette.get(parentId) || '#6ea8fe';
 }
 
+// Hash-derived hues occasionally collide between two unrelated
+// independents that happen to land within a few degrees of each other --
+// Angel Studios and Roadside Attractions both landed on nearly the same
+// blue. Explicit overrides for the specific collisions that turned out to
+// matter (both are frequently active in the same crowded recent years).
+const standaloneColorOverrides = new Map([
+  ['angel_studios', 'hsl(266, 62%, 54%)'],
+  ['roadside_attractions', 'hsl(18, 62%, 54%)']
+]);
+
 // Color for the many one-off independent distributors that don't have a
 // real brand color -- spreads continuously across the hue wheel (rather
 // than picked from a handful of fixed swatches) so that with ~150 of them,
@@ -84,6 +94,7 @@ function parentColor(parentId) {
 // independents all looked washed-out and a little "blah" next to the
 // punchier branded studio colors.
 function getStandaloneColor(id) {
+  if (standaloneColorOverrides.has(id)) return standaloneColorOverrides.get(id);
   let hash = 0;
   for (let i = 0; i < id.length; i += 1) hash = (hash * 31 + id.charCodeAt(i)) | 0;
   const hue = Math.abs(hash) % 360;
@@ -129,8 +140,62 @@ const ALWAYS_LABELED_DISTRIBUTORS = new Set([
   'mubi',
   'crunchyroll',
   'neon',
-  'a24'
+  'a24',
+  'netflix',
+  'ifc_films',
+  'ifc_entertainment_group',
+  'twentieth_century',
+  'searchlight_pictures',
+  'sony_pictures_classics'
 ]);
+
+// These majors' names are short (especially after the abbreviations above
+// -- "Sony", "Lionsgate", "Amazon MGM") and they're almost always the
+// single biggest, most central bubble in their ring, so their label can
+// scale up far past the general cap without outgrowing the circle.
+const LARGE_LABEL_DISTRIBUTORS = new Set([
+  'warner_bros_pictures',
+  'universal_pictures',
+  'sony_pictures',
+  'walt_disney_studios',
+  'lionsgate_films',
+  'paramount_pictures',
+  'mgm'
+]);
+
+// Fits a short name to its bubble as large as it can go: tries the name on
+// one line, and (for multi-word names) also tries splitting it across two
+// lines at whichever word boundary balances the two lines best, then picks
+// whichever option yields the bigger font while still keeping the widest
+// line comfortably inside the circle (1.5x the radius -- half of that per
+// side leaves a real margin before either the bubble's own edge or a
+// touching neighbor's). 0.58 is a rough average glyph-width-to-font-size
+// ratio for this weight of sans-serif; it doesn't need to be exact, just
+// consistent enough that longer lines reliably get a smaller size.
+function fitLargeLabel(name, r) {
+  const EST_CHAR_WIDTH = 0.58;
+  const MIN_SIZE = 14;
+  const MAX_SIZE = 42;
+  // Kept well under the naive "fits the circle's own width" bound: a
+  // child bubble that nearly fills its parent ring sits close enough to
+  // the ring's own label (near the ring's top edge) that a maximally
+  // wide two-line stack can crowd into it, even though it's still fully
+  // inside its own circle.
+  const targetWidth = r * 1.25;
+  const sizeFor = text => targetWidth / (text.length * EST_CHAR_WIDTH);
+
+  let best = { lines: [name], fontSize: sizeFor(name) };
+
+  const words = name.split(' ');
+  for (let i = 1; i < words.length; i += 1) {
+    const l1 = words.slice(0, i).join(' ');
+    const l2 = words.slice(i).join(' ');
+    const size = sizeFor(l1.length >= l2.length ? l1 : l2);
+    if (size > best.fontSize) best = { lines: [l1, l2], fontSize: size };
+  }
+
+  return { lines: best.lines, fontSize: Math.max(MIN_SIZE, Math.min(MAX_SIZE, best.fontSize)) };
+}
 
 function appendChildLabel(node, d) {
   // Thresholds scaled up alongside the bigger post-calibration bubble
@@ -139,14 +204,22 @@ function appendChildLabel(node, d) {
   // now-too-low cutoff and crowd the packed cluster with overlapping text.
   const showLabel = d.r > 46 || ALWAYS_LABELED_DISTRIBUTORS.has(d.data.id);
   if (!showLabel) return;
-  const lines = wrapLabel(d.data.name, d.r > 69 ? 16 : 12);
+  const isLarge = LARGE_LABEL_DISTRIBUTORS.has(d.data.id);
+  const largeFit = isLarge ? fitLargeLabel(d.data.name, d.r) : null;
+  const lines = isLarge ? largeFit.lines : wrapLabel(d.data.name, d.r > 69 ? 16 : 12);
   const label = d3.select(node).append('text').attr('class', 'child-label');
 
   lines.forEach((line, index) => {
+    const fontSize = isLarge ? largeFit.fontSize : Math.max(10, Math.min(17, d.r / 3.4));
+    // A large two-line label (e.g. "Warner" / "Bros.") is tall enough at
+    // this size that the usual -0.45em start would push its top line up
+    // near the parent ring's own label -- centering it lower, closer to
+    // the bubble's actual middle, keeps the big font without crowding it.
+    const firstLineDy = isLarge && lines.length === 2 ? '-0.2em' : '-0.45em';
     label.append('tspan')
       .attr('x', 0)
-      .attr('dy', index === 0 ? (lines.length === 1 ? '-0.15em' : '-0.45em') : '1.05em')
-      .style('font-size', `${Math.max(10, Math.min(17, d.r / 3.4))}px`)
+      .attr('dy', index === 0 ? (lines.length === 1 ? '-0.15em' : firstLineDy) : '1.05em')
+      .style('font-size', `${fontSize}px`)
       .text(line);
   });
 
