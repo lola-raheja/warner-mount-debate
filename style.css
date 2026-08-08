@@ -227,6 +227,18 @@ svg {
   stroke-linejoin: round;
 }
 
+/* Secondary metric -- same treatment as the year value, just smaller, so
+   the year stays the visually dominant number in the ticker. */
+.year-ticker-total-value {
+  fill: var(--label-fill);
+  font-size: 36px;
+  font-weight: 800;
+  paint-order: stroke fill;
+  stroke: var(--label-halo);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
 .child-node circle {
   fill-opacity: 0.92;
   /* Faint edge, not a bold border -- since bubbles border each other

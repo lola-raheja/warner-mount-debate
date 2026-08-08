@@ -590,11 +590,13 @@ function initChart() {
   labelGroup = svg.append('g').attr('class', 'parent-labels');
 
   // Baked into the graphic itself (not just the page chrome around it) so
-  // the year is still visible however this gets cropped for a LinkedIn/
-  // Substack recording.
+  // the year and running total are still visible however this gets
+  // cropped for a LinkedIn/Substack recording.
   yearTicker = svg.append('g').attr('class', 'year-ticker');
   yearTicker.append('text').attr('class', 'year-ticker-label').attr('x', 40).attr('y', 58).text('Year');
   yearTicker.append('text').attr('class', 'year-ticker-value').attr('x', 40).attr('y', 108);
+  yearTicker.append('text').attr('class', 'year-ticker-label').attr('x', 40).attr('y', 168).text('Total Wide-Release Movies');
+  yearTicker.append('text').attr('class', 'year-ticker-total-value').attr('x', 40).attr('y', 212);
 }
 
 function update(year) {
@@ -604,6 +606,7 @@ function update(year) {
   yearValue.textContent = year;
   totalValue.textContent = totalTitles;
   yearTicker.select('.year-ticker-value').text(year);
+  yearTicker.select('.year-ticker-total-value').text(totalTitles);
 
   const { parentNodes, allLeaves } = computeYearNodes(rows, layout);
 
