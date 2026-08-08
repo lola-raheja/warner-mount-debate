@@ -198,6 +198,35 @@ svg {
   stroke-linejoin: round;
 }
 
+/* Baked into the SVG itself, upper-left, so the year survives however this
+   gets cropped for a screen recording -- the page's own year-card sits
+   outside the chart and wouldn't be captured. */
+.year-ticker {
+  pointer-events: none;
+}
+
+.year-ticker-label {
+  fill: var(--muted);
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  paint-order: stroke fill;
+  stroke: var(--label-halo);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.year-ticker-value {
+  fill: var(--label-fill);
+  font-size: 48px;
+  font-weight: 800;
+  paint-order: stroke fill;
+  stroke: var(--label-halo);
+  stroke-width: 5px;
+  stroke-linejoin: round;
+}
+
 .child-node circle {
   fill-opacity: 0.92;
   /* Faint edge, not a bold border -- since bubbles border each other

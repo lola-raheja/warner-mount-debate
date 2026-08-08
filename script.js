@@ -6,8 +6,11 @@ const playButton = document.getElementById('playButton');
 const prevButton = document.getElementById('prevButton');
 const nextButton = document.getElementById('nextButton');
 
-const TRANSITION_DURATION = 1200;
+const TRANSITION_DURATION = 800;
 const EXIT_DURATION = 600;
+// 35 year-to-year steps (1990-2025) at this interval land the full
+// playthrough around 45s (35 * 1280ms = 44.8s), down from ~69s.
+const PLAY_STEP_PAUSE = 480;
 
 // Fixed, resolution-independent coordinate space. The SVG scales to its
 // container purely via CSS (viewBox + width:100%), so this never changes
@@ -15,31 +18,16 @@ const EXIT_DURATION = 600;
 // once at load (see pickCanvasSize below) based on the device's own
 // viewport, then left alone -- recomputing on every resize would fight
 // the whole point of fixed positions.
-let CANVAS_WIDTH = 1000;
-let CANVAS_HEIGHT = 1000;
-const MOBILE_BREAKPOINT = 780; // matches the CSS breakpoint in style.css
+let CANVAS_WIDTH = 1080;
+let CANVAS_HEIGHT = 1350;
 
-// The packed mosaic is circular, so its size is always bounded by
-// whichever canvas dimension is smaller -- BASE_SIZE keeps that dimension
-// fixed at the value already tuned for bubble legibility, regardless of
-// device. The other dimension extends to give the canvas a device-
-// appropriate rectangular frame (landscape on wide viewports, portrait on
-// narrow ones) with the circular cluster centered in it, rather than
-// distorting the packing itself into an ellipse. Because a circle can only
-// ever fill the SHORTER side of a rectangle, the extension ratio is capped
-// fairly tightly (1.3x) -- real device aspect ratios go much wider/taller
-// than that, but following them exactly would surround the mosaic with
-// large empty bands, reopening the "wasted space" problem already fixed
-// once for the square canvas.
+// Fixed at LinkedIn's recommended portrait post size (1080x1350, a 4:5
+// ratio) instead of adapting per device -- the primary deliverable is a
+// screen-recorded LinkedIn/Substack post, so the graphic itself should
+// always be that exact shape rather than going landscape on a wide
+// desktop viewport.
 function pickCanvasSize() {
-  const BASE_SIZE = 1000;
-  const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-  if (window.innerWidth < MOBILE_BREAKPOINT) {
-    const ratio = clamp(window.innerHeight / window.innerWidth, 1.05, 1.3);
-    return { width: BASE_SIZE, height: Math.round(BASE_SIZE * ratio) };
-  }
-  const ratio = clamp(window.innerWidth / window.innerHeight, 1.05, 1.3);
-  return { width: Math.round(BASE_SIZE * ratio), height: BASE_SIZE };
+  return { width: 1080, height: 1350 };
 }
 const MAX_LEAF_RADIUS = 130;
 const PARENT_TOP_PADDING = 12;
@@ -408,6 +396,26 @@ function computeYearNodes(rows, layout) {
   }
 
   const resolved = resolveMacroLayout(macroEntries);
+
+  // The centroid blend above pulls active entities toward each other, but
+  // that centroid is just the average of whichever subset happens to be
+  // active -- not necessarily the canvas center, especially in a sparse
+  // year where a handful of parents' historical homes can sit off to one
+  // side of the full 23-parent layout. Recentering the whole resolved
+  // group by its own bounding box (a rigid shift, so it doesn't disturb
+  // anything's position relative to its neighbors) keeps the mosaic
+  // framed with even margins every year instead of drifting toward one
+  // edge and leaving dead space at the other.
+  if (resolved.length) {
+    const minX = Math.min(...resolved.map(n => n.x - n.r));
+    const maxX = Math.max(...resolved.map(n => n.x + n.r));
+    const minY = Math.min(...resolved.map(n => n.y - n.r));
+    const maxY = Math.max(...resolved.map(n => n.y + n.r));
+    const shiftX = CANVAS_WIDTH / 2 - (minX + maxX) / 2;
+    const shiftY = CANVAS_HEIGHT / 2 - (minY + maxY) / 2;
+    resolved.forEach(n => { n.x += shiftX; n.y += shiftY; });
+  }
+
   const parentNodes = [];
   const allLeaves = [];
 
@@ -470,7 +478,7 @@ function computeYearNodes(rows, layout) {
   return { parentNodes, allLeaves };
 }
 
-let svg, parentGroup, childGroup, labelGroup;
+let svg, parentGroup, childGroup, labelGroup, yearTicker;
 let allRows = [];
 let years = [];
 let layout = null;
@@ -506,6 +514,13 @@ function initChart() {
   // Parent-company labels live in their own top-most layer so distributor
   // bubbles packed inside a parent circle can never paint over the name.
   labelGroup = svg.append('g').attr('class', 'parent-labels');
+
+  // Baked into the graphic itself (not just the page chrome around it) so
+  // the year is still visible however this gets cropped for a LinkedIn/
+  // Substack recording.
+  yearTicker = svg.append('g').attr('class', 'year-ticker');
+  yearTicker.append('text').attr('class', 'year-ticker-label').attr('x', 40).attr('y', 58).text('Year');
+  yearTicker.append('text').attr('class', 'year-ticker-value').attr('x', 40).attr('y', 108);
 }
 
 function update(year) {
@@ -514,6 +529,7 @@ function update(year) {
 
   yearValue.textContent = year;
   totalValue.textContent = totalTitles;
+  yearTicker.select('.year-ticker-value').text(year);
 
   const { parentNodes, allLeaves } = computeYearNodes(rows, layout);
 
@@ -644,7 +660,7 @@ function startPlayback() {
     }
     goToIndex(yearIndex + 1);
     if (yearIndex >= years.length - 1) stopPlayback();
-  }, TRANSITION_DURATION + 700);
+  }, TRANSITION_DURATION + PLAY_STEP_PAUSE);
 }
 
 playButton.addEventListener('click', () => {
