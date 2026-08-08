@@ -75,17 +75,19 @@ function parentColor(parentId) {
   return parentPalette.get(parentId) || '#6ea8fe';
 }
 
-// Muted color for the many one-off independent distributors that don't
-// have a real brand color -- deliberately soft so they recede next to the
-// studios that do, but spread continuously across the hue wheel (rather
+// Color for the many one-off independent distributors that don't have a
+// real brand color -- spreads continuously across the hue wheel (rather
 // than picked from a handful of fixed swatches) so that with ~150 of them,
 // neighbors don't keep landing on the same few colors. Saturation and
-// lightness stay fixed so the "soft, receding" quality is consistent.
+// lightness stay fixed so the palette reads as one consistent family, but
+// pushed a good deal richer than the original 38%/58% -- at that level the
+// independents all looked washed-out and a little "blah" next to the
+// punchier branded studio colors.
 function getStandaloneColor(id) {
   let hash = 0;
   for (let i = 0; i < id.length; i += 1) hash = (hash * 31 + id.charCodeAt(i)) | 0;
   const hue = Math.abs(hash) % 360;
-  return `hsl(${hue}, 38%, 58%)`;
+  return `hsl(${hue}, 62%, 54%)`;
 }
 
 function leafColor(distributorId, fallback) {
@@ -123,7 +125,11 @@ const ALWAYS_LABELED_DISTRIBUTORS = new Set([
   'walt_disney_studios',
   'mgm',
   'lionsgate_films',
-  'sony_pictures'
+  'sony_pictures',
+  'mubi',
+  'crunchyroll',
+  'neon',
+  'a24'
 ]);
 
 function appendChildLabel(node, d) {

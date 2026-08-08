@@ -249,10 +249,12 @@ svg {
   transition: transform 180ms ease, fill-opacity 180ms ease, stroke-width 180ms ease;
 }
 
-/* Independent (standalone, unbranded) distributors get a softer,
-   more translucent treatment so the branded studio bubbles stand out. */
+/* Independent (standalone, unbranded) distributors get a slightly softer
+   treatment than branded studio bubbles, but not so translucent it washes
+   the color out -- paired with the richer hue/saturation in
+   getStandaloneColor, this is what keeps them from reading as "blah". */
 .child-node.is-standalone:not(.is-branded) circle {
-  fill-opacity: 0.48;
+  fill-opacity: 0.72;
 }
 
 .child-node:hover circle,
@@ -263,19 +265,19 @@ svg {
   stroke-width: 2;
 }
 
-/* A24's logo has a subtle aqua/yellow/orange chromatic-split border on
+/* A24's logo has a razor-thin aqua/yellow/orange chromatic-split border on
    black -- recreated here as a gradient stroke (defined in the SVG's
    <defs>, see initChart in script.js) instead of the usual flat edge. */
 .child-node.is-a24 circle {
   stroke: url(#a24BorderGradient);
-  stroke-width: 3;
+  stroke-width: 1;
 }
 
 .child-node.is-a24:hover circle,
 .child-node.is-a24.is-active circle,
 .child-node.is-a24:focus circle {
   stroke: url(#a24BorderGradient);
-  stroke-width: 4;
+  stroke-width: 1.5;
 }
 
 .child-label {
