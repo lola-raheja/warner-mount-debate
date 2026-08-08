@@ -10,7 +10,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 1990,sony,Sony,tristar_pictures,TriStar,1
 1990,sony,Sony,triumph_releasing,Triumph Releasing,4
 1990,matsushita,Matsushita,universal_pictures,Universal,12
-1990,disney,Disney,walt_disney_studios,Walt Disney,13
+1990,disney,Disney,walt_disney_studios,Disney,13
 1990,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,12
 1991,news_corp,News Corp,twentieth_century,20th Century Fox,11
 1991,,,goldwyn_entertainment,Goldwyn Entertainment,1
@@ -22,7 +22,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 1991,sony,Sony,sony_pictures,Sony Pictures,16
 1991,,,studio_three_films,Studio Three Films,2
 1991,matsushita,Matsushita,universal_pictures,Universal,17
-1991,disney,Disney,walt_disney_studios,Walt Disney,14
+1991,disney,Disney,walt_disney_studios,Disney,14
 1991,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,16
 1992,news_corp,News Corp,twentieth_century,20th Century Fox,14
 1992,miramax,Miramax,dimension_films,Dimension Films,1
@@ -36,7 +36,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 1992,sony,Sony,sony_pictures,Sony Pictures,18
 1992,sony,Sony,tristar_pictures,TriStar Pictures,2
 1992,matsushita,Matsushita,universal_pictures,Universal,13
-1992,disney,Disney,walt_disney_studios,Walt Disney,16
+1992,disney,Disney,walt_disney_studios,Disney,16
 1992,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,17
 1993,news_corp,News Corp,twentieth_century,20th Century Fox,17
 1993,matsushita,Matsushita,gramercy_pictures,Gramercy,1
@@ -50,7 +50,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 1993,sony,Sony,tristar_pictures,TriStar Pictures,3
 1993,,,trimark_pictures,Trimark,2
 1993,matsushita,Matsushita,universal_pictures,Universal,15
-1993,disney,Disney,walt_disney_studios,Walt Disney,16
+1993,disney,Disney,walt_disney_studios,Disney,16
 1993,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,19
 1994,news_corp,News Corp,twentieth_century,20th Century Fox,12
 1994,,,cannon,Cannon,1
@@ -64,7 +64,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 1994,,,savoy,Savoy,3
 1994,sony,Sony,sony_pictures,Sony Pictures,19
 1994,matsushita,Matsushita,universal_pictures,Universal,15
-1994,disney,Disney,walt_disney_studios,Walt Disney,20
+1994,disney,Disney,walt_disney_studios,Disney,20
 1994,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,19
 1995,news_corp,News Corp,twentieth_century,20th Century Fox,12
 1995,,,goldwyn_entertainment,Goldwyn Entertainment,1
@@ -77,7 +77,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 1995,sony,Sony,sony_pictures,Sony Pictures,22
 1995,sony,Sony,tristar_pictures,TriStar Pictures,1
 1995,seagram,Seagram,universal_pictures,Universal,16
-1995,disney,Disney,walt_disney_studios,Walt Disney,24
+1995,disney,Disney,walt_disney_studios,Disney,24
 1995,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,19
 1996,news_corp,News Corp,twentieth_century,20th Century Fox,12
 1996,news_corp,News Corp,searchlight_pictures,Fox Searchlight,1
@@ -90,7 +90,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 1996,viacom,Viacom,paramount_pictures,Paramount Pictures,17
 1996,sony,Sony,sony_pictures,Sony Pictures,26
 1996,seagram,Seagram,universal_pictures,Universal,14
-1996,disney,Disney,walt_disney_studios,Walt Disney,25
+1996,disney,Disney,walt_disney_studios,Disney,25
 1996,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,21
 1997,news_corp,News Corp,twentieth_century,20th Century Fox,14
 1997,,,dreamworks,Dreamworks SKG,2
@@ -106,7 +106,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 1997,sony,Sony,tristar_pictures,TriStar Pictures,1
 1997,,,trimark_pictures,Trimark,3
 1997,seagram,Seagram,universal_pictures,Universal,12
-1997,disney,Disney,walt_disney_studios,Walt Disney,22
+1997,disney,Disney,walt_disney_studios,Disney,22
 1997,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,23
 1998,news_corp,News Corp,twentieth_century,20th Century Fox,13
 1998,,,artisan_entertainment,Artisan,2
@@ -120,7 +120,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 1998,sony,Sony,tristar_pictures,Sony/TriStar,2
 1998,,,trimark_pictures,Trimark,2
 1998,seagram,Seagram,universal_pictures,Universal,17
-1998,disney,Disney,walt_disney_studios,Walt Disney,19
+1998,disney,Disney,walt_disney_studios,Disney,19
 1998,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,23
 1999,news_corp,News Corp,twentieth_century,20th Century Fox,14
 1999,,,artisan_entertainment,Artisan,4
@@ -138,7 +138,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 1999,sony,Sony,sony_pictures,Sony Pictures,22
 1999,sony,Sony,tristar_pictures,TriStar Pictures,1
 1999,seagram,Seagram,universal_pictures,Universal,19
-1999,disney,Disney,walt_disney_studios,Walt Disney,19
+1999,disney,Disney,walt_disney_studios,Disney,19
 1999,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,21
 2000,news_corp,News Corp,twentieth_century,20th Century Fox,15
 2000,,,artisan_entertainment,Artisan,4
@@ -155,7 +155,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2000,lionsgate,Lionsgate,trimark_pictures,Trimark,1
 2000,vivendi_universal,Vivendi Universal,universal_pictures,Universal,15
 2000,,,focus_features,USA Films,3
-2000,disney,Disney,walt_disney_studios,Walt Disney,16
+2000,disney,Disney,walt_disney_studios,Disney,16
 2000,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,20
 2001,news_corp,News Corp,twentieth_century,20th Century Fox,18
 2001,,,artisan_entertainment,Artisan,1
@@ -172,7 +172,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2001,sony,Sony,sony_pictures,Sony Pictures,19
 2001,vivendi_universal,Vivendi Universal,universal_pictures,Universal,12
 2001,,,focus_features,USA Films,1
-2001,disney,Disney,walt_disney_studios,Walt Disney,12
+2001,disney,Disney,walt_disney_studios,Disney,12
 2001,time_warner,AOL Time Warner,warner_bros_pictures,Warner Bros.,23
 2002,news_corp,News Corp,twentieth_century,20th Century Fox,18
 2002,,,artisan_entertainment,Artisan,2
@@ -187,7 +187,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2002,,,screen_media_films,Screen Media Films,1
 2002,sony,Sony,sony_pictures,Sony Pictures,20
 2002,vivendi_universal,Vivendi Universal,universal_pictures,Universal,14
-2002,disney,Disney,walt_disney_studios,Walt Disney,17
+2002,disney,Disney,walt_disney_studios,Disney,17
 2002,time_warner,AOL Time Warner,warner_bros_pictures,Warner Bros.,23
 2003,news_corp,News Corp,twentieth_century,20th Century Fox,14
 2003,lionsgate,Lionsgate,artisan_entertainment,Artisan,2
@@ -201,7 +201,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2003,viacom,Viacom,paramount_pictures,Paramount Pictures,17
 2003,sony,Sony,sony_pictures,Sony Pictures,23
 2003,vivendi_universal,Vivendi Universal,universal_pictures,Universal,15
-2003,disney,Disney,walt_disney_studios,Walt Disney,16
+2003,disney,Disney,walt_disney_studios,Disney,16
 2003,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,19
 2004,news_corp,News Corp,twentieth_century,20th Century Fox,18
 2004,,,benji_returns,Benji Returns,1
@@ -219,7 +219,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2004,viacom,Viacom,paramount_pictures,Paramount Pictures,15
 2004,sony,Sony,sony_pictures,Sony Pictures,17
 2004,vivendi_universal,Vivendi Universal,universal_pictures,Universal,15
-2004,disney,Disney,walt_disney_studios,Walt Disney,17
+2004,disney,Disney,walt_disney_studios,Disney,17
 2004,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,23
 2005,news_corp,News Corp,twentieth_century,20th Century Fox,18
 2005,,,dreamworks,Dreamworks SKG,7
@@ -237,7 +237,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2005,,,slowhand_cinema,Slowhand Cinema,1
 2005,sony,Sony,sony_pictures,Sony Pictures,21
 2005,vivendi_universal,Vivendi Universal,universal_pictures,Universal,16
-2005,disney,Disney,walt_disney_studios,Walt Disney,15
+2005,disney,Disney,walt_disney_studios,Disney,15
 2005,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,15
 2005,time_warner,Time Warner,warner_independent,Warner Independent,1
 2005,,,weinstein_company,Weinstein Co.,2
@@ -256,7 +256,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2006,,,romar,Romar,1
 2006,sony,Sony,sony_pictures,Sony Pictures,27
 2006,vivendi_universal,Vivendi Universal,universal_pictures,Universal,18
-2006,disney,Disney,walt_disney_studios,Walt Disney,19
+2006,disney,Disney,walt_disney_studios,Disney,19
 2006,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,16
 2006,,,weinstein_company,The Weinstein Company,5
 2006,weinstein_company,The Weinstein Company,dimension_films,Dimension Films,2
@@ -282,7 +282,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2007,,,summit_entertainment,Summit Entertainment,1
 2007,mgm_parent,MGM Holdings,united_artists,United Artists,1
 2007,vivendi_universal,Vivendi Universal,universal_pictures,Universal,17
-2007,disney,Disney,walt_disney_studios,Walt Disney,16
+2007,disney,Disney,walt_disney_studios,Disney,16
 2007,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,22
 2007,,,weinstein_company,The Weinstein Company,4
 2007,weinstein_company,The Weinstein Company,dimension_films,Dimension Films,2
@@ -307,7 +307,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2008,mgm_parent,MGM Holdings,united_artists,United Artists,2
 2008,vivendi_universal,Vivendi Universal,universal_pictures,Universal,19
 2008,vivendi_universal,Vivendi Universal,vivendi_entertainment,Vivendi Entertainment,1
-2008,disney,Disney,walt_disney_studios,Walt Disney,12
+2008,disney,Disney,walt_disney_studios,Disney,12
 2008,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,19
 2008,,,weinstein_company,The Weinstein Company,4
 2008,,,yari_film_group,Yari Film Group,1
@@ -327,7 +327,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2009,,,summit_entertainment,Summit Entertainment,6
 2009,mgm_parent,MGM Holdings,united_artists,United Artists,1
 2009,vivendi_universal,Vivendi Universal,universal_pictures,Universal,19
-2009,disney,Disney,walt_disney_studios,Walt Disney,14
+2009,disney,Disney,walt_disney_studios,Disney,14
 2009,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,25
 2009,weinstein_company,The Weinstein Company,dimension_films,Dimension Films,1
 2010,news_corp,News Corp,twentieth_century,20th Century Fox,18
@@ -346,7 +346,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2010,,,summit_entertainment,Summit Entertainment,4
 2010,vivendi_universal,Vivendi Universal,universal_pictures,Universal,16
 2010,vivendi_universal,Vivendi Universal,vivendi_entertainment,Vivendi Entertainment,1
-2010,disney,Disney,walt_disney_studios,Walt Disney,13
+2010,disney,Disney,walt_disney_studios,Disney,13
 2010,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,23
 2010,weinstein_company,The Weinstein Company,dimension_films,Dimension Films,2
 2011,news_corp,News Corp,twentieth_century,20th Century Fox,18
@@ -366,7 +366,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2011,,,summit_entertainment,Summit Entertainment,5
 2011,,,the_bubble_factory,The Bubble Factory,1
 2011,comcast,Comcast,universal_pictures,Universal,15
-2011,disney,Disney,walt_disney_studios,Walt Disney,15
+2011,disney,Disney,walt_disney_studios,Disney,15
 2011,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,21
 2011,,,weinstein_company,The Weinstein Company,4
 2011,weinstein_company,The Weinstein Company,dimension_films,Dimension Films,2
@@ -386,7 +386,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2012,sony,Sony,sony_pictures,Sony Pictures,21
 2012,lionsgate,Lionsgate,summit_entertainment,Summit Entertainment,1
 2012,comcast,Comcast,universal_pictures,Universal,16
-2012,disney,Disney,walt_disney_studios,Walt Disney,10
+2012,disney,Disney,walt_disney_studios,Disney,10
 2012,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,20
 2012,,,weinstein_company,The Weinstein Company,4
 2013,news_corp,News Corp,twentieth_century,20th Century Fox,16
@@ -402,7 +402,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2013,,,roadside_attractions,Roadside Attractions,1
 2013,sony,Sony,sony_pictures,Sony Pictures,15
 2013,comcast,Comcast,universal_pictures,Universal,14
-2013,disney,Disney,walt_disney_studios,Walt Disney,9
+2013,disney,Disney,walt_disney_studios,Disney,9
 2013,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,18
 2013,,,weinstein_company,The Weinstein Company,6
 2014,news_corp,News Corp,twentieth_century,20th Century Fox,19
@@ -421,7 +421,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2014,,,relativity_media,Relativity,9
 2014,sony,Sony,sony_pictures,Sony Pictures,16
 2014,comcast,Comcast,universal_pictures,Universal,15
-2014,disney,Disney,walt_disney_studios,Walt Disney,14
+2014,disney,Disney,walt_disney_studios,Disney,14
 2014,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,18
 2014,,,weinstein_company,The Weinstein Company,4
 2015,news_corp,News Corp,twentieth_century,20th Century Fox,19
@@ -443,7 +443,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2015,sony,Sony,sony_pictures,Sony Pictures,14
 2015,,,stx_entertainment,STX Entertainment,2
 2015,comcast,Comcast,universal_pictures,Universal,19
-2015,disney,Disney,walt_disney_studios,Walt Disney,13
+2015,disney,Disney,walt_disney_studios,Disney,13
 2015,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,24
 2015,,,weinstein_company,Weinstein Co.,5
 2016,news_corp,News Corp,twentieth_century,20th Century Fox,17
@@ -467,7 +467,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2016,,,stx_entertainment,STX Entertainment,6
 2016,comcast,Comcast,universal_pictures,Universal,19
 2016,,,viva_entertainment,Viva Entertainment,1
-2016,disney,Disney,walt_disney_studios,Walt Disney,13
+2016,disney,Disney,walt_disney_studios,Disney,13
 2016,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,21
 2016,,,weinstein_company,The Weinstein Company,2
 2017,news_corp,News Corp,twentieth_century,20th Century Fox,16
@@ -493,7 +493,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2017,sony,Sony,sony_pictures_classics,Sony Pictures Classics,1
 2017,,,stx_entertainment,STX Entertainment,7
 2017,comcast,Comcast,universal_pictures,Universal,15
-2017,disney,Disney,walt_disney_studios,Walt Disney,7
+2017,disney,Disney,walt_disney_studios,Disney,7
 2017,time_warner,Time Warner,warner_bros_pictures,Warner Bros.,17
 2017,,,weinstein_company,The Weinstein Company,4
 2018,news_corp,News Corp,twentieth_century,20th Century Fox,13
@@ -528,7 +528,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2018,sony,Sony,sony_pictures,Sony Pictures,19
 2018,,,stx_entertainment,STX Entertainment,9
 2018,comcast,Comcast,universal_pictures,Universal,17
-2018,disney,Disney,walt_disney_studios,Walt Disney,11
+2018,disney,Disney,walt_disney_studios,Disney,11
 2018,time_warner,Warner Media (AT&T),warner_bros_pictures,Warner Bros.,20
 2019,,,101_studios,101 Studios,1
 2019,disney,Disney,twentieth_century,20th Century Fox,10
@@ -554,7 +554,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2019,,,stx_entertainment,STX Entertainment,9
 2019,mgm_parent,MGM Holdings,united_artists,United Artists,6
 2019,comcast,Comcast,universal_pictures,Universal,18
-2019,disney,Disney,walt_disney_studios,Walt Disney,13
+2019,disney,Disney,walt_disney_studios,Disney,13
 2019,time_warner,Warner Media (AT&T),warner_bros_pictures,Warner Bros.,21
 2020,,,101_studios,101 Studios,1
 2020,disney,Disney,twentieth_century,20th Century Studios,3
@@ -572,7 +572,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2020,,,stx_entertainment,STX Entertainment,4
 2020,mgm_parent,MGM Holdings,united_artists,United Artists,2
 2020,comcast,Comcast,universal_pictures,Universal,13
-2020,disney,Disney,walt_disney_studios,Walt Disney,3
+2020,disney,Disney,walt_disney_studios,Disney,3
 2020,time_warner,Warner Media (AT&T),warner_bros_pictures,Warner Bros.,7
 2021,disney,Disney,twentieth_century,20th Century Studios,5
 2021,,,a24,A24,2
@@ -591,7 +591,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2021,,,stx_entertainment,STX Entertainment,1
 2021,mgm_parent,MGM Holdings,united_artists,United Artists,5
 2021,comcast,Comcast,universal_pictures,Universal,14
-2021,disney,Disney,walt_disney_studios,Walt Disney,7
+2021,disney,Disney,walt_disney_studios,Disney,7
 2021,time_warner,Warner Media (AT&T),warner_bros_pictures,Warner Bros.,18
 2022,disney,Disney,twentieth_century,20th Century Studios,7
 2022,,,a24,A24,4
@@ -622,7 +622,7 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2022,amazon,Amazon,united_artists,United Artists,4
 2022,comcast,Comcast,universal_pictures,Universal,19
 2022,,,up2u_films,UP2U Films,1
-2022,disney,Disney,walt_disney_studios,Walt Disney,7
+2022,disney,Disney,walt_disney_studios,Disney,7
 2022,warner_bros_discovery,Warner Bros. Discovery,warner_bros_pictures,Warner Bros.,7
 2023,disney,Disney,twentieth_century,20th Century Studios,4
 2023,,,a24,A24,4
@@ -661,9 +661,9 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2023,toho,Toho,toho_international,Toho International,1
 2023,comcast,Comcast,universal_pictures,Universal,15
 2023,,,viva_pictures,Viva Pictures,2
-2023,disney,Disney,walt_disney_studios,Walt Disney,10
+2023,disney,Disney,walt_disney_studios,Disney,10
 2023,warner_bros_discovery,Warner Bros. Discovery,warner_bros_pictures,Warner Bros.,12
-2023,yash_raj_films_parent,Yash Raj Films,yash_raj_films,Yash Raj Films,3
+2023,,,yash_raj_films,Yash Raj Films,3
 2023,,,zee_studios,Zee Studios,1
 2024,disney,Disney,twentieth_century,20th Century Studios,3
 2024,,,a24,A24,7
@@ -708,10 +708,10 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2024,,,vertical_entertainment,Vertical Entertainment,4
 2024,,,viacom18_motion_pictures,Viacom18 Motion Pictures,1
 2024,,,viva_pictures,Viva Pictures,2
-2024,disney,Disney,walt_disney_studios,Walt Disney,6
+2024,disney,Disney,walt_disney_studios,Disney,6
 2024,warner_bros_discovery,Warner Bros. Discovery,warner_bros_pictures,Warner Bros.,11
 2024,,,well_go_usa,Well Go USA,2
-2024,yash_raj_films_parent,Yash Raj Films,yash_raj_films,Yash Raj Films,1
+2024,,,yash_raj_films,Yash Raj Films,1
 2025,disney,Disney,twentieth_century,20th Century Studios,5
 2025,,,a24,A24,9
 2025,amazon,Amazon,mgm,Amazon MGM Studios,5
@@ -750,6 +750,6 @@ year,parent_id,parent_label,distributor_id,distributor_label,title_count
 2025,comcast,Comcast,universal_pictures,Universal,16
 2025,,,vertical_entertainment,Vertical Entertainment,6
 2025,,,viva_pictures,Viva Pictures,2
-2025,disney,Disney,walt_disney_studios,Walt Disney,11
+2025,disney,Disney,walt_disney_studios,Disney,11
 2025,warner_bros_discovery,Warner Bros. Discovery,warner_bros_pictures,Warner Bros.,12
-2025,yash_raj_films_parent,Yash Raj Films,yash_raj_films,Yash Raj Films,2
+2025,,,yash_raj_films,Yash Raj Films,2
