@@ -23,7 +23,6 @@
      what's underneath -- not a page-background color. */
   --label-fill: #ffffff;
   --label-halo: rgba(6, 9, 14, 0.85);
-  --label-count-fill: rgba(255,255,255,0.85);
 
   --tooltip-bg: rgba(12, 17, 24, 0.94);
   --tooltip-text: #ffffff;
@@ -294,11 +293,6 @@ svg {
   stroke: var(--label-halo);
   stroke-width: 2.5px;
   stroke-linejoin: round;
-}
-
-.child-label .count {
-  font-weight: 500;
-  fill: var(--label-count-fill);
 }
 
 .tooltip {

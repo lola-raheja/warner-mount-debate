@@ -225,8 +225,12 @@ function appendChildLabel(node, d) {
 
   // The release count is secondary to the name and costs another line of
   // vertical space a smaller, still-labeled bubble often can't spare
-  // without the text spilling past its own edge into a touching neighbor.
-  if (d.r <= 46) return;
+  // without the text spilling past its own edge into a touching neighbor
+  // -- except for the always-visible distributors, whose count should be
+  // just as reliably visible as their name is (as long as they actually
+  // released something that year).
+  const alwaysShowCount = ALWAYS_LABELED_DISTRIBUTORS.has(d.data.id) && d.data.value > 0;
+  if (d.r <= 46 && !alwaysShowCount) return;
 
   label.append('tspan')
     .attr('class', 'count')
